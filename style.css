@@ -1,0 +1,154 @@
+body {
+  background-image: linear-gradient(to bottom, white, #91c3e0);
+}
+a:link {
+  text-decoration: solid;
+  color: #205471;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #205471;
+}
+
+a:visited {
+  text-decoration: solid;
+  color: #205471;
+}
+img {
+  width: 100%;
+  max-height: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center top;
+}
+
+img#navpic {
+  border: 1px white solid;
+  border-radius: 50%;
+}
+
+/*styling for index.html*/
+
+.nav {
+  height: 12vh;
+  max-width: 100vw;
+  margin: 0;
+  background-color: #0d9c90;
+}
+
+.navbar-nav a {
+  padding-right: 1rem;
+  text-align: end;
+  font-family: "Lato", sans-serif;
+  font-size: 19px;
+}
+
+.title {
+  height: 88vh;
+  width: 100%;
+}
+
+.title h1,
+h2 {
+  text-align: center;
+}
+
+.title h1 {
+  font-size: 7rem;
+}
+
+.title h2 {
+  color: #205471;
+}
+
+.navbar {
+  height: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+  width: 100%;
+}
+
+button {
+  max-height: 100%;
+  width: 7rem;
+}
+
+.nav img {
+  height: 10vh;
+  width: auto;
+}
+
+.photos img {
+  object-fit: cover;
+}
+
+.goals #header {
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-family: "Bebas Neue", cursive;
+  color: #205471;
+}
+
+div#about {
+  background-color: #b9ebe4;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+.goals #descrip {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.3rem;
+}
+
+#mission p:first-child {
+  font-family: "Bebas Neue", cursive;
+  color: #205471;
+  text-transform: uppercase;
+  font-size: 4rem;
+}
+
+#mission p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+}
+
+#mission span {
+  color: #205471;
+}
+
+div#mission {
+  background-color: white;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 5rem;
+  padding-bottom: 7rem;
+}
+
+div#contact {
+  padding: 2rem;
+}
+
+#contact p:first-child {
+  font-size: 2rem;
+  font-family: "Bebas Neue", cursive;
+  color: #205471;
+  border-bottom: 3px #f7d80c solid;
+  margin-bottom: 2rem;
+}
+
+#contact p {
+  font-family: "Lato", sans-serif;
+  font-size: 18px;
+}
+
+footer {
+  width: 100vw;
+  justify-content: center;
+}
+
+.sponsorlogo {
+  padding: 0.5rem;
+}

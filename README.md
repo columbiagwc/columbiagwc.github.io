@@ -27,7 +27,7 @@ Use double quotes in JSON, no trailing commas, and `\n\n` for paragraph breaks. 
 **Every external button URL is in `content/buttons.json`:** `getInvolved`, `newsletter`, `teachingApplication`, `committeeApplication`, and `studentApplication`.
 
 - Change `href` to update a link or `label` to change its text.
-- `newTab: true` opens a new tab. Newsletter buttons already use this.
+- All external links automatically open in a new tab, including forms and social links. Email links launch the visitor’s mail app. No per-button setting is needed.
 - For an application, change `"disabled": false` to **`"disabled": true`** to close it. Its button is replaced with `closedMessage` and a newsletter link. Edit the message freely.
 - Set `disabled` back to `false` to reopen. Keep the URL in place while closed.
 

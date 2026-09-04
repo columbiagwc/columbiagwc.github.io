@@ -28,7 +28,7 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   assert.ok(home.indexOf('First event')<home.indexOf('Later event'));
   assert.ok(home.indexOf('id="upcoming-events"')<home.indexOf('class="mission'));
   assert.match(home,/href="#upcoming-events"/);
-  assert.match(home,/href="https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLSc1GnVPSFEHVjuPZArO3jDL5GToq2BFp-mm5cii-Q6EJkpRiw\/viewform\?usp=publish-editor"/);
+  assert.match(home,/href="https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLSc1GnVPSFEHVjuPZArO3jDL5GToq2BFp-mm5cii-Q6EJkpRiw\/viewform\?usp=dialog"/);
   assert.ok(!home.includes("columbiagwc+subscribe"));
   assert.match(home,/target="_blank" rel="noopener noreferrer">Join the newsletter/);
   const boardPage=await readFile(path.join(out,'board/index.html'),'utf8');
@@ -54,13 +54,16 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
       await access(destination);
       if(anchor){const target=await readFile(destination,'utf8');assert.ok(target.includes(`id="${anchor}"`),`${route}: missing #${anchor}`);}
     }
+    for (const [anchor] of html.matchAll(/<a\b[^>]*href="(?:https:|mailto:)[^"]*"[^>]*>/g)) {
+      assert.ok(anchor.includes('target="_blank"') && anchor.includes('rel="noopener noreferrer"'), `${route}: external link must open safely in a new tab: ${anchor}`);
+    }
     assert.ok(!html.includes('undefined'),`${route}: undefined content`);
   }
   assert.equal((await readFile(path.join(out,'CNAME'),'utf8')).trim(),'example.org');
   await access(path.join(out,'.nojekyll'));
   // Closing applications must remove their destinations and show the shared newsletter form.
   const buttons=JSON.parse(await readFile(path.join(root,'content/buttons.json'),'utf8'));
-  await edit('buttons',d=>{d.teachingApplication.disabled=true;d.committeeApplication.disabled=true;});
+  await edit('buttons',d=>{d.teachingApplication.disabled=true;d.committeeApplication.disabled=true;d.newsletter.href='https://example.com/replacement-newsletter';});
   await edit('board',d=>{d.members[0].visible=false;});
   await build({root});
   const closedPrograms=await readFile(path.join(out,'programs/index.html'),'utf8');
@@ -69,8 +72,11 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   assert.ok(closedCommittees.includes(buttons.committeeApplication.closedMessage));
   assert.ok(!closedPrograms.includes(buttons.teachingApplication.href));
   assert.ok(!closedCommittees.includes(buttons.committeeApplication.href));
-  assert.ok(closedPrograms.includes(buttons.newsletter.href));
-  assert.ok(closedCommittees.includes(buttons.newsletter.href));
+  for (const route of routes.slice(0,5)) {
+    const page=await readFile(path.join(out,route),'utf8');
+    assert.ok(!page.includes(buttons.newsletter.href), `${route}: stale newsletter URL`);
+    assert.match(page, /href="https:\/\/example.com\/replacement-newsletter" target="_blank" rel="noopener noreferrer">Join the newsletter/);
+  }
   assert.ok(!closedCommittees.includes('Learn more'));
   assert.ok(!closedCommittees.includes('◖◗'));
   assert.ok(!(await readFile(path.join(out,'board/index.html'),'utf8')).includes('alt="Ann Lee"'));

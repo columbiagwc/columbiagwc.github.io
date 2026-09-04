@@ -100,7 +100,12 @@ export async function build({ root = project, output = path.join(root, 'dist') }
   function render(route, title, body) {
     const base = route ? '../' : './';
     const url = href => /^(https:|mailto:|#)/.test(href) ? href : base + href;
-    const link = (label, href, cls = '', newTab = false) => `<a${cls ? ` class="${cls}"` : ''} href="${escape(url(href))}"${newTab ? ' target="_blank" rel="noopener noreferrer"' : ''}>${escape(label)}${newTab ? '<span class="sr-only"> (opens in a new tab)</span>' : ''}</a>`;
+    const opensNewTab = (href, requested = false) => requested || /^(https:|mailto:)/.test(href);
+    const tabAttributes = href => opensNewTab(href) ? ' target="_blank" rel="noopener noreferrer"' : '';
+    const link = (label, href, cls = '', newTab = false) => {
+      newTab = opensNewTab(href, newTab);
+      return `<a${cls ? ` class="${cls}"` : ''} href="${escape(url(href))}"${newTab ? ' target="_blank" rel="noopener noreferrer"' : ''}>${escape(label)}${newTab ? '<span class="sr-only"> (opens in a new tab)</span>' : ''}</a>`;
+    };
     const button = (name, cls = 'button') => {
       const config = buttons[name];
       if (config.disabled) return `<aside class="application-closed"><p>${escape(config.closedMessage)}</p>${link(buttons.newsletter.label,buttons.newsletter.href,'button',buttons.newsletter.newTab)}</aside>`;
@@ -110,9 +115,9 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} | GWC Columbia</title><meta name="description" content="${escape(site.description)}"><link rel="canonical" href="${escape(site.url + '/' + route)}"><link rel="stylesheet" href="${base}style.css"><script src="${base}site.js" defer></script></head><body class="page-${escape(route.replaceAll('/','') || 'home')}">
 <a class="skip" href="#main">Skip to content</a>
-<header><div class="nav-wrap"><a class="brand" href="${base}" aria-label="${escape(site.name)} — Home">${img(site.logo, site.name, '', true)}</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">☰</span></button><nav id="main-nav" aria-label="Main navigation">${site.navigation.map(n => `<a href="${escape(url(n.href))}"${n.href===route ? ' aria-current="page"' : ''}>${escape(n.label)}</a>`).join('')}${button('getInvolved')}</nav></div></header>
-<main id="main">${body({img,link,url,button})}</main>
-<footer><div class="footer-grid"><section><h2>${escape(site.footer.contactTitle)}</h2>${link(site.email, `mailto:${site.email}`)}<h2>${escape(site.footer.socialTitle)}</h2><div class="socials">${site.socials.map(s => `<a href="${escape(s.href)}" aria-label="${escape(s.label)}">${img(s.image,s.label)}</a>`).join('')}</div></section><section class="newsletter"><h2>${escape(site.newsletter.title)}</h2><p>${escape(site.newsletter.description)}</p>${button('newsletter','button outline')}</section></div><div class="footer-bottom"><p class="copyright">© ${escape(site.footer.copyright)}</p><p class="updated">${escape(site.footer.updatedLabel)} <time datetime="${escape(commitDate)}">${escape(displayDate)}</time></p></div></footer></body></html>`;
+<header><div class="nav-wrap"><a class="brand" href="${base}" aria-label="${escape(site.name)} — Home">${img(site.logo, site.name, '', true)}</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">☰</span></button><nav id="main-nav" aria-label="Main navigation">${site.navigation.map(n => `<a href="${escape(url(n.href))}"${tabAttributes(n.href)}${n.href===route ? ' aria-current="page"' : ''}>${escape(n.label)}</a>`).join('')}${button('getInvolved')}</nav></div></header>
+<main id="main">${body({img,link,url,button,tabAttributes})}</main>
+<footer><div class="footer-grid"><section><h2>${escape(site.footer.contactTitle)}</h2>${link(site.email, `mailto:${site.email}`)}<h2>${escape(site.footer.socialTitle)}</h2><div class="socials">${site.socials.map(s => `<a href="${escape(s.href)}"${tabAttributes(s.href)} aria-label="${escape(s.label)}">${img(s.image,s.label)}</a>`).join('')}</div></section><section class="newsletter"><h2>${escape(site.newsletter.title)}</h2><p>${escape(site.newsletter.description)}</p>${button('newsletter','button outline')}</section></div><div class="footer-bottom"><p class="copyright">© ${escape(site.footer.copyright)}</p><p class="updated">${escape(site.footer.updatedLabel)} <time datetime="${escape(commitDate)}">${escape(displayDate)}</time></p></div></footer></body></html>`;
     return html;
   }
   const pages = {
@@ -146,9 +151,9 @@ export async function build({ root = project, output = path.join(root, 'dist') }
       <section id="teaching" class="teaching"><div class="teaching-picture"><h2>${escape(programs.teaching.title)}</h2>${img(programs.teaching.image,programs.teaching.imageAlt,'section-photo')}</div>
         <div class="teaching-copy"><h3>${escape(programs.teaching.heading)}</h3><p>${escape(programs.teaching.description)}</p>${button('teachingApplication')}</div>
       </section>`),
-    'committees/': render('committees/',committees.title,({img,link,url,button})=>`
+    'committees/': render('committees/',committees.title,({img,link,url,button,tabAttributes})=>`
       <section class="committees-hero">${img(committees.image,'','committees-background',true)}<div class="committees-intro"><h1>${escape(committees.title)}</h1><p>${escape(committees.intro)}</p>${button('committeeApplication')}</div></section>
-      <nav class="committee-nav" aria-label="Committees"><div class="section">${committees.items.map(c=>`<a class="committee-link" href="${escape(url(c.href||'#'+c.id))}">${committeeIcon(c.icon)}<span>${escape(c.title)}</span></a>`).join('')}</div></nav>
+      <nav class="committee-nav" aria-label="Committees"><div class="section">${committees.items.map(c=>`<a class="committee-link" href="${escape(url(c.href||'#'+c.id))}"${tabAttributes(c.href||'#'+c.id)}>${committeeIcon(c.icon)}<span>${escape(c.title)}</span></a>`).join('')}</div></nav>
       ${committees.items.filter(c=>c.id!=='teaching').map((c,i)=>`<section id="${escape(c.id)}" class="committee-band ${i%2?'alternate':''}"><div class="committee section"><div class="committee-copy"><h2>${escape(c.title)}</h2><p>${escape(c.description)}</p></div><div class="committee-gallery">${img(c.image,c.title+' committee','gallery-main')}<div class="gallery-thumbs"><a href="${escape(url(c.image))}" aria-current="true">${img(c.image,c.title+' committee photo')}</a>${c.art?`<a href="${escape(url(c.art))}">${img(c.art,c.title+' committee highlight')}</a>`:''}</div></div></div></section>`).join('')}`),
     'events/': render('events/',events.title,helpers=>`
       <section class="floral-heading"><h1>${escape(events.title)}</h1><p>${escape(events.intro)}</p></section>
@@ -158,11 +163,11 @@ export async function build({ root = project, output = path.join(root, 'dist') }
       <section id="past-events" class="section event-section"><h2>${escape(events.pastTitle)}</h2><p>${escape(events.pastIntro)}</p>
         ${events.past.length ? eventCards([...events.past].sort((a,b)=>b.date.localeCompare(a.date)),helpers) : `<div class="empty-state"><h3>${escape(events.pastEmpty.title)}</h3><p>${escape(events.pastEmpty.description)}</p></div>`}
       </section>`),
-    'board/': render('board/',board.title,({img})=>`
+    'board/': render('board/',board.title,({img,tabAttributes})=>`
       <section class="floral-heading"><h1>${escape(board.title)}</h1><span class="heading-rule" aria-hidden="true"></span><p>${escape(board.subtitle)}</p></section>
       <section class="board-grid section" aria-label="Board members">${board.members.filter(m=>m.visible!==false).map(m=>`
         <article class="member">${img(m.image,m.name,'portrait')}<div class="member-copy"><p class="member-role">${escape(m.role)}</p><h2>${escape(m.name)}</h2><div class="member-bio">${paragraphs(m.bio)}</div>
-        <div class="member-links">${site.profileSocials.map(s=>`<a href="${escape(s.href)}" aria-label="${escape(site.name+' on '+s.label)}">${img(s.image,s.label)}</a>`).join('')}</div></div></article>`).join('')}
+        <div class="member-links">${site.profileSocials.map(s=>`<a href="${escape(s.href)}"${tabAttributes(s.href)} aria-label="${escape(site.name+' on '+s.label)}">${img(s.image,s.label)}</a>`).join('')}</div></div></article>`).join('')}
       </section>`)
   };
   for (const [route,html] of Object.entries(pages)) {

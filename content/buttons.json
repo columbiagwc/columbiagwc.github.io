@@ -5,7 +5,7 @@
   },
   "newsletter": {
     "label": "Join the newsletter",
-    "href": "https://docs.google.com/forms/d/e/1FAIpQLSc1GnVPSFEHVjuPZArO3jDL5GToq2BFp-mm5cii-Q6EJkpRiw/viewform?usp=publish-editor",
+    "href": "https://docs.google.com/forms/d/e/1FAIpQLSc1GnVPSFEHVjuPZArO3jDL5GToq2BFp-mm5cii-Q6EJkpRiw/viewform?usp=dialog",
     "newTab": true
   },
   "teachingApplication": {

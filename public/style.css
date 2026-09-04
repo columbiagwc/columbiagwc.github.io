@@ -16,6 +16,9 @@
   font-display: swap;
 }
 :root {
+  --card-radius: 16px;
+  --button-radius: 8px;
+  --motion-duration: 180ms;
   --green: #e2f0dd;
   --teal: #0d9c90;
   --pink: #e48499;
@@ -60,7 +63,8 @@ header { background: var(--green); }
   text-align: center;
 }
 .nav-wrap nav > a[aria-current] { color: var(--pink-text); background: var(--cream); border-color: #d8a5b0; }
-.nav-wrap nav > a:hover { background: var(--cream); color: var(--pink-text); }
+.nav-wrap nav > a:hover, .nav-wrap nav > a:focus-visible { background: var(--cream); color: var(--pink-text); border-color: var(--pink); }
+.nav-wrap nav > a.button:hover, .nav-wrap nav > a.button:focus-visible { background: var(--pink); border-color: var(--pink); color: white; }
 .button {
   display: inline-flex;
   justify-content: center;
@@ -73,7 +77,7 @@ header { background: var(--green); }
   font-size: 16px;
   text-decoration: none;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--button-radius);
   cursor: pointer;
 }
 .button:hover { background: var(--ink); color: white; }
@@ -103,9 +107,9 @@ header { background: var(--green); }
 .section-heading > a { white-space: nowrap; }
 .empty-state { padding: 24px 0; }
 .empty-state h2, .empty-state h3 { font-size: 24px; }
-.mission { display: grid; grid-template-columns: 410px 1fr; gap: 28px; align-items: center; padding: 45px 0 40px; }
+.mission { display: grid; width: min(1100px, calc(100% - 48px)); grid-template-columns: 410px 1fr; gap: 28px; align-items: center; padding: 45px 0 40px; }
 .mission-art { width: 410px; }
-.mission-copy { padding: 28px 30px 28px 0; background: linear-gradient(90deg, #f4fbf0, #f4fbf066); }
+.mission-copy { min-height: 440px; padding: 48px; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(90deg, #f4fbf0, #f4fbf099); border-radius: var(--card-radius); }
 .mission-copy h2 { color: var(--teal); font-weight: 700; margin-bottom: 16px; }
 .missions { padding-left: 28px; margin: 12px 0 20px; }
 .missions li { padding-left: 0; }
@@ -133,7 +137,7 @@ header { background: var(--green); }
 .floral-heading p { margin: 25px auto 0; font: 18px/1.8 Questrial, sans-serif; }
 .heading-rule { display: block; width: 30px; height: 2px; background: var(--teal); margin: auto; }
 .board-grid { max-width: 866px; padding: 70px 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 60px; }
-.member { background: var(--cream); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.member { background: var(--cream); border-radius: var(--card-radius); overflow: hidden; display: flex; flex-direction: column; }
 .portrait { width: 100%; aspect-ratio: 403 / 362; object-fit: cover; }
 .member-copy { padding: 16px 30px 20px; font-family: Questrial, sans-serif; color: var(--pink-text); flex: 1; display: flex; flex-direction: column; }
 .member-role { font-size: 16px; line-height: 1.4; margin: 0 0 5px; }
@@ -141,8 +145,6 @@ header { background: var(--green); }
 .member-bio { font-size: 16px; line-height: 24px; }
 .member-links { margin-top: auto; padding-top: 12px; display: flex; align-items: center; gap: 7px; }
 .member-links img { width: 25px; height: 25px; }
-.member-links > a:not(.member-email) { flex-shrink: 0; }
-.member-email { color: var(--ink); background: var(--green); border-radius: 15px; padding: 2px 8px; margin-left: auto; font-size: 14px; text-decoration: none; overflow-wrap: anywhere; }
 .program-intro { padding: 70px 0; background: var(--cream); }
 .intro-inner { width: min(1280px, calc(100% - 80px)); margin: auto; display: grid; grid-template-columns: 37% 63%; align-items: start; background: linear-gradient(var(--green) 360px, transparent 360px); }
 .intro-art { grid-column: 1 / 3; grid-row: 1; width: 63%; height: 365px; object-fit: cover; }
@@ -189,7 +191,7 @@ header { background: var(--green); }
 .committee-copy { padding: 25px 0 50px 110px; }
 .committee-copy h2 { font-size: 32px; color: var(--pink-text); margin-bottom: 30px; }
 .alternate .committee-copy h2 { color: var(--teal); }
-.committee-copy p { background: var(--teal); color: white; padding: 45px 50px; text-align: center; border-radius: 10px; margin: 0; line-height: 1.8; }
+.committee-copy p { background: var(--teal); color: white; padding: 45px 50px; text-align: center; border-radius: var(--card-radius); margin: 0; line-height: 1.8; }
 .alternate .committee-copy p { background: var(--pink); }
 .committee-gallery { padding-right: 50px; }
 .gallery-main { width: 100%; height: 335px; object-fit: cover; }
@@ -197,7 +199,8 @@ header { background: var(--green); }
 .gallery-thumbs a { width: 115px; opacity: .6; }
 .gallery-thumbs a[aria-current], .gallery-thumbs a:hover { opacity: 1; }
 .gallery-thumbs img { width: 115px; height: 115px; object-fit: cover; }
-.past-events { min-height: 420px; }
+.event-section { min-height: 320px; }
+.event-section + .event-section { border-top: 1px solid #b5d4c3; }
 .event-list { display: grid; gap: 45px; }
 .event { border-top: 1px solid #b5d4c3; padding-top: 30px; }
 .event h2, .event h3 { font-size: 30px; }
@@ -213,7 +216,7 @@ footer section > a:not(.button) { background: var(--green); padding: 1px 8px; bo
 footer section > h2:not(:first-child) { margin-top: 18px; }
 .socials { display: flex; gap: 12px; }
 .socials img { width: 32px; height: 32px; }
-.newsletter { background: var(--pink); color: var(--cream); padding: 28px 24px; text-align: center; border-radius: 8px; }
+.newsletter { background: var(--pink); color: var(--cream); padding: 28px 24px; text-align: center; border-radius: var(--card-radius); }
 .newsletter h2 { color: var(--cream); font-weight: 400; margin-bottom: 28px; }
 .newsletter p { line-height: 1.5; }
 .newsletter .button { border-radius: 8px; }
@@ -223,6 +226,27 @@ footer section > h2:not(:first-child) { margin-top: 18px; }
 .skip { position: absolute; left: 16px; top: -100px; z-index: 10; padding: 16px; background: white; }
 .skip:focus { top: 8px; }
 :focus-visible { outline: 3px solid #763c68; outline-offset: 4px; }
+/* Shared shapes and feedback across pages. Full-width section bands remain square. */
+.intro-copy, .course, .teaching-picture, .committees-intro, .committee,
+.intro-art, .gallery-main, .event-cover, .photo-grid img, .teaching-picture img {
+  border-radius: var(--card-radius);
+}
+.committee { overflow: hidden; }
+.gallery-thumbs img, .gallery-thumbs a { border-radius: var(--button-radius); }
+.event { border: 1px solid #b5d4c3; border-radius: var(--card-radius); padding: 28px; }
+.course p:last-child { margin-bottom: 0; }
+a, button { transition: background-color var(--motion-duration) ease, border-color var(--motion-duration) ease, color var(--motion-duration) ease, box-shadow var(--motion-duration) ease; }
+.gallery-thumbs a { transition: opacity var(--motion-duration) ease; }
+.button:hover, .button:focus-visible { box-shadow: 0 3px 10px #087d7424; }
+.actions .button:hover, .actions .button:focus-visible,
+.committee-nav .button:hover, .committee-nav .button:focus-visible { background: var(--cream); color: var(--pink-text); }
+.course .button:hover, .committees-intro .button:hover { background: var(--pink-text); }
+/* Native cross-document transitions preserve browser navigation and history. */
+@view-transition { navigation: auto; }
+::view-transition-group(*) { animation-duration: 180ms; animation-timing-function: ease-in-out; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 180ms; }
+.nav-wrap { view-transition-name: site-navigation; }
+
 @media (max-width: 1100px) {
   .nav-wrap { margin: 0 24px; }
   .nav-wrap nav > a { padding-inline: 12px; }
@@ -251,14 +275,13 @@ footer section > h2:not(:first-child) { margin-top: 18px; }
   .events-section > .section { min-height: 420px; }
   .mission { display: flex; flex-direction: column; gap: 20px; }
   .mission-art { max-width: 340px; }
-  .mission-copy { padding: 24px; }
+  .mission-copy { min-height: 0; padding: 32px 28px; }
   .floral-heading { padding: 38px 24px 45px; min-height: 230px; }
   .floral-heading::before, .floral-heading::after { opacity: .55; width: 25%; background-size: 440px 300px; }
   .floral-heading h1 { max-width: 280px; margin-inline: auto; font-size: 38px; }
   .floral-heading p { font-size: 16px; }
   .board-grid { grid-template-columns: 1fr; max-width: 403px; gap: 35px; }
   .member-copy { padding: 20px 26px; }
-  .member-email { font-size: 14px; }
   .program-intro { padding: 30px 24px; }
   .intro-inner { width: 100%; display: flex; flex-direction: column; }
   .intro-art { width: 100%; height: 210px; }
@@ -290,4 +313,9 @@ footer section > h2:not(:first-child) { margin-top: 18px; }
   footer { padding-top: 65px; }
   .newsletter { padding: 28px 20px; }
 }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  a, button, .gallery-thumbs a { transition: none; }
+  @view-transition { navigation: none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none; }
+}

@@ -68,11 +68,11 @@ Each photo needs `src` and descriptive `alt` text. Captions are optional. Photos
 
 ## Newsletter
 
-The footer and upcoming-event buttons open the newsletter Google Form. Update `newsletter.href` in `content/site.json` to change the signup destination. The form handles collecting responses; the website does not send subscription emails.
+The footer and upcoming-event buttons open the newsletter Google Form in a new tab. Update `newsletter.href` in `content/site.json` to change the signup destination. The form handles collecting responses; the website does not send subscription emails.
 
 ## Program and board dates
 
-The source Wix site identifies its classes and board as **2025**. Those dates and profiles have been preserved. The expired Fall 2025 student application is marked `archived`, and its button contacts the club instead of presenting it as an open application. To open a new term, update all term details and its application URL in `content/programs.json`, then change `term.status` to `open`. `closed` and `archived` both show `term.notice` and a contact link. Existing teaching and committee application links are preserved from Wix; confirm them before the next recruitment cycle.
+The source Wix site identifies its classes and board as **2025**. Those dates and profiles have been preserved. The expired Fall 2025 student application is marked `archived`, and its button contacts the club instead of presenting it as an open application. To open a new term, update all term details and its application URL in `content/programs.json`, then change `term.status` to `open`. `closed` and `archived` both show `term.notice` and hide the course application buttons. Existing teaching and committee application links are preserved from Wix; confirm them before the next recruitment cycle.
 
 ## Last-updated date
 
@@ -101,7 +101,7 @@ The existing Pages address is `https://columbiagwc.github.io/`. To configure thi
 3. Allow the `github-pages` environment to deploy from `main`.
 4. Run the workflow on `main`, or merge a PR into `main`. Pull requests only build and test; they do not deploy.
 
-The workflow follows [GitHub's custom Pages workflow guidance](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages). If you later configure a custom domain in GitHub, add a root `CNAME` and update `content/site.json` (`url`). The build copies `CNAME` only when present. Clean routes are `/programs/`, `/committees/`, `/board/`, and `/past-events/`; `/blank/`, `/blank-1/`, and `/blank-2/` redirect to the corresponding rebuilt pages for links using the old Wix path names on the new domain.
+The workflow follows [GitHub's custom Pages workflow guidance](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages). If you later configure a custom domain in GitHub, add a root `CNAME` and update `content/site.json` (`url`). The build copies `CNAME` only when present. The Events page lists upcoming events above past events; `/past-events/` redirects to `/events/`. Clean routes are `/programs/`, `/committees/`, `/board/`, and `/events/`; `/blank/`, `/blank-1/`, and `/blank-2/` redirect to the corresponding rebuilt pages for links using the old Wix path names on the new domain.
 
 ## Migration provenance
 

@@ -18,8 +18,8 @@
       "href": "board/"
     },
     {
-      "label": "Past Events",
-      "href": "past-events/"
+      "label": "Events",
+      "href": "events/"
     }
   ],
   "getInvolved": {
@@ -31,11 +31,6 @@
       "label": "Instagram",
       "href": "https://www.instagram.com/girlswhocodecolumbia/",
       "image": "assets/450db0_cd9258a18a3b424b9077466f53e5b1b4~mv2.png"
-    },
-    {
-      "label": "LinkedIn",
-      "href": "https://www.linkedin.com/company/girls-who-code-at-columbia-university/",
-      "image": "assets/450db0_283e9c71bb0f4c3382f82725ece26197~mv2.png"
     }
   ],
   "newsletter": {
@@ -54,5 +49,12 @@
     "title": "Page not found",
     "description": "The page may have moved. Visit our home page to find programs, committees, and our team.",
     "label": "Back to home"
-  }
+  },
+  "profileSocials": [
+    {
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/company/girls-who-code-at-columbia-university/",
+      "image": "assets/450db0_283e9c71bb0f4c3382f82725ece26197~mv2.png"
+    }
+  ]
 }

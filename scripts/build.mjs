@@ -90,14 +90,14 @@ export async function build({ root = project, output = path.join(root, 'dist') }
   function render(route, title, body) {
     const base = route ? '../' : './';
     const url = href => /^(https:|mailto:|#)/.test(href) ? href : base + href;
-    const link = (label, href, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="${escape(url(href))}">${escape(label)}</a>`;
+    const link = (label, href, cls = '', newTab = false) => `<a${cls ? ` class="${cls}"` : ''} href="${escape(url(href))}"${newTab ? ' target="_blank" rel="noopener noreferrer"' : ''}>${escape(label)}${newTab ? '<span class="sr-only"> (opens in a new tab)</span>' : ''}</a>`;
     const img = (src, alt, cls = '', eager = false) => `<img src="${escape(base + src)}" alt="${escape(alt)}" class="${cls}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
     const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} | GWC Columbia</title><meta name="description" content="${escape(site.description)}"><link rel="canonical" href="${escape(site.url + '/' + route)}"><link rel="stylesheet" href="${base}style.css"><script src="${base}site.js" defer></script></head><body class="page-${escape(route.replaceAll('/','') || 'home')}">
 <a class="skip" href="#main">Skip to content</a>
 <header><div class="nav-wrap"><a class="brand" href="${base}" aria-label="${escape(site.name)} — Home">${img(site.logo, site.name, '', true)}</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">☰</span></button><nav id="main-nav" aria-label="Main navigation">${site.navigation.map(n => `<a href="${escape(url(n.href))}"${n.href===route ? ' aria-current="page"' : ''}>${escape(n.label)}</a>`).join('')}${link(site.getInvolved.label, site.getInvolved.href, 'button')}</nav></div></header>
 <main id="main">${body({img,link,url})}</main>
-<footer><div class="footer-grid"><section><h2>${escape(site.footer.contactTitle)}</h2>${link(site.email, `mailto:${site.email}`)}<h2>${escape(site.footer.socialTitle)}</h2><div class="socials">${site.socials.map(s => `<a href="${escape(s.href)}" aria-label="${escape(s.label)}">${img(s.image,s.label)}</a>`).join('')}</div></section><section class="newsletter"><h2>${escape(site.newsletter.title)}</h2><p>${escape(site.newsletter.description)}</p>${link(site.newsletter.label,site.newsletter.href,'button outline')}</section></div><div class="footer-bottom"><p class="copyright">© ${escape(site.footer.copyright)}</p><p class="updated">${escape(site.footer.updatedLabel)} <time datetime="${escape(commitDate)}">${escape(displayDate)}</time></p></div></footer></body></html>`;
+<footer><div class="footer-grid"><section><h2>${escape(site.footer.contactTitle)}</h2>${link(site.email, `mailto:${site.email}`)}<h2>${escape(site.footer.socialTitle)}</h2><div class="socials">${site.socials.map(s => `<a href="${escape(s.href)}" aria-label="${escape(s.label)}">${img(s.image,s.label)}</a>`).join('')}</div></section><section class="newsletter"><h2>${escape(site.newsletter.title)}</h2><p>${escape(site.newsletter.description)}</p>${link(site.newsletter.label,site.newsletter.href,'button outline',true)}</section></div><div class="footer-bottom"><p class="copyright">© ${escape(site.footer.copyright)}</p><p class="updated">${escape(site.footer.updatedLabel)} <time datetime="${escape(commitDate)}">${escape(displayDate)}</time></p></div></footer></body></html>`;
     return html;
   }
   const pages = {
@@ -107,8 +107,8 @@ export async function build({ root = project, output = path.join(root, 'dist') }
         <a class="scroll-cue" href="#upcoming-events"><span>${escape(home.scrollLabel)}</span><span class="scroll-glyph" aria-hidden="true">↓</span></a>
       </section>
       <section id="upcoming-events" class="events-section"><div class="section">
-        <div class="section-heading"><h2>${escape(events.upcomingTitle)}</h2>${link(events.pastLinkLabel,'past-events/')}</div>
-        ${events.upcoming.length ? eventCards([...events.upcoming].sort((a,b)=>a.date.localeCompare(b.date)),{img,link,url}) : `<div class="empty-state"><h3>${escape(events.upcomingEmpty.title)}</h3><p>${escape(events.upcomingEmpty.description)}</p>${link(site.newsletter.label,site.newsletter.href,'button')}</div>`}
+        <div class="section-heading"><h2>${escape(events.upcomingTitle)}</h2>${link(events.pageLinkLabel,'events/')}</div>
+        ${events.upcoming.length ? eventCards([...events.upcoming].sort((a,b)=>a.date.localeCompare(b.date)),{img,link,url}) : `<div class="empty-state"><h3>${escape(events.upcomingEmpty.title)}</h3><p>${escape(events.upcomingEmpty.description)}</p>${link(site.newsletter.label,site.newsletter.href,'button',true)}</div>`}
       </div></section>
       <section class="mission section">${img(home.image,home.imageAlt,'mission-art')}
         <div class="mission-copy"><h2>${escape(home.heading)}</h2><p>${escape(home.intro)}</p>
@@ -127,7 +127,7 @@ export async function build({ root = project, output = path.join(root, 'dist') }
         <ul>${programs.term.schedule.map(s=>`<li>${escape(s)}</li>`).join('')}</ul><p>${escape(programs.term.eligibility)}</p>
         <p><strong>${escape(programs.term.deadlineLabel)}:</strong> ${escape(programs.term.deadline)}</p><p>${escape(programs.term.attendance)}</p>
       </div></div></section>
-      <section class="courses"><div class="section course-grid">${programs.courses.map((c,i)=>`<article class="course"><span class="number" aria-hidden="true">${i+1}</span><h3>${escape(c.title)}</h3><p>${escape(c.description)}</p>${link(programs.term.status==='open'?programs.term.applyLabel:programs.term.closedLabel,programs.term.status==='open'?programs.term.applicationUrl:`mailto:${site.email}?subject=High%20School%20Classes`,'button')}</article>`).join('')}</div></section>
+      <section class="courses"><div class="section course-grid">${programs.courses.map((c,i)=>`<article class="course"><span class="number" aria-hidden="true">${i+1}</span><h3>${escape(c.title)}</h3><p>${escape(c.description)}</p>${programs.term.status==='open' ? link(programs.term.applyLabel,programs.term.applicationUrl,'button') : ''}</article>`).join('')}</div></section>
       <section id="teaching" class="teaching"><div class="teaching-picture"><h2>${escape(programs.teaching.title)}</h2>${img(programs.teaching.image,programs.teaching.imageAlt,'section-photo')}</div>
         <div class="teaching-copy"><h3>${escape(programs.teaching.heading)}</h3><p>${escape(programs.teaching.description)}</p>${link(programs.teaching.applyLabel,programs.teaching.applicationUrl,'button')}</div>
       </section>`),
@@ -135,21 +135,26 @@ export async function build({ root = project, output = path.join(root, 'dist') }
       <section class="committees-hero">${img(committees.image,'','committees-background',true)}<div class="committees-intro"><h1>${escape(committees.title)}</h1><p>${escape(committees.intro)}</p>${link(committees.applyLabel,committees.applicationUrl,'button')}</div></section>
       <nav class="committee-nav" aria-label="Committees"><div class="section">${committees.items.map((c,i)=>`<div><span class="committee-symbol" aria-hidden="true">${['◖◗','◕','◒','◖◗','◖◗','◖◗','◖◗'][i]}</span><p>${escape(c.title)}</p>${link(committees.learnMoreLabel,c.href||'#'+c.id,'button')}</div>`).join('')}</div></nav>
       ${committees.items.filter(c=>c.id!=='teaching').map((c,i)=>`<section id="${escape(c.id)}" class="committee-band ${i%2?'alternate':''}"><div class="committee section"><div class="committee-copy"><h2>${escape(c.title)}</h2><p>${escape(c.description)}</p></div><div class="committee-gallery">${img(c.image,c.title+' committee','gallery-main')}<div class="gallery-thumbs"><a href="${escape(url(c.image))}" aria-current="true">${img(c.image,c.title+' committee photo')}</a>${c.art?`<a href="${escape(url(c.art))}">${img(c.art,c.title+' committee highlight')}</a>`:''}</div></div></div></section>`).join('')}`),
-    'past-events/': render('past-events/',events.pastTitle,helpers=>`
-      <section class="floral-heading"><h1>${escape(events.pastTitle)}</h1><p>${escape(events.pastIntro)}</p></section>
-      <section class="section past-events">${events.past.length ? eventCards([...events.past].sort((a,b)=>b.date.localeCompare(a.date)),helpers,'h2') : `<div class="empty-state"><h2>${escape(events.pastEmpty.title)}</h2><p>${escape(events.pastEmpty.description)}</p></div>`}</section>`),
+    'events/': render('events/',events.title,helpers=>`
+      <section class="floral-heading"><h1>${escape(events.title)}</h1><p>${escape(events.intro)}</p></section>
+      <section id="upcoming-events" class="section event-section"><h2>${escape(events.upcomingTitle)}</h2>
+        ${events.upcoming.length ? eventCards([...events.upcoming].sort((a,b)=>a.date.localeCompare(b.date)),helpers) : `<div class="empty-state"><h3>${escape(events.upcomingEmpty.title)}</h3><p>${escape(events.upcomingEmpty.description)}</p>${helpers.link(site.newsletter.label,site.newsletter.href,'button',true)}</div>`}
+      </section>
+      <section id="past-events" class="section event-section"><h2>${escape(events.pastTitle)}</h2><p>${escape(events.pastIntro)}</p>
+        ${events.past.length ? eventCards([...events.past].sort((a,b)=>b.date.localeCompare(a.date)),helpers) : `<div class="empty-state"><h3>${escape(events.pastEmpty.title)}</h3><p>${escape(events.pastEmpty.description)}</p></div>`}
+      </section>`),
     'board/': render('board/',board.title,({img})=>`
       <section class="floral-heading"><h1>${escape(board.title)}</h1><span class="heading-rule" aria-hidden="true"></span><p>${escape(board.subtitle)}</p></section>
       <section class="board-grid section" aria-label="Board members">${board.members.map(m=>`
         <article class="member">${img(m.image,m.name,'portrait')}<div class="member-copy"><p class="member-role">${escape(m.role)}</p><h2>${escape(m.name)}</h2><div class="member-bio">${paragraphs(m.bio)}</div>
-        <div class="member-links">${site.socials.map(s=>`<a href="${escape(s.href)}" aria-label="${escape(site.name+' on '+s.label)}">${img(s.image,s.label)}</a>`).join('')}<a class="member-email" href="mailto:${escape(site.email)}">${escape(site.email)}</a></div></div></article>`).join('')}
+        <div class="member-links">${site.profileSocials.map(s=>`<a href="${escape(s.href)}" aria-label="${escape(site.name+' on '+s.label)}">${img(s.image,s.label)}</a>`).join('')}</div></div></article>`).join('')}
       </section>`)
   };
   for (const [route,html] of Object.entries(pages)) {
     await mkdir(path.join(output,route),{recursive:true});
     await writeFile(path.join(output,route,'index.html'),html);
   }
-  const aliases = {'blank':'programs/','blank-1':'committees/','blank-2':'board/'};
+  const aliases = {'blank':'programs/','blank-1':'committees/','blank-2':'board/','past-events':'events/'};
   for(const [alias,target] of Object.entries(aliases)) {
     await mkdir(path.join(output,alias),{recursive:true});
     await writeFile(path.join(output,alias,'index.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=../${target}"><title>Page moved</title><link rel="canonical" href="${escape(site.url+'/'+target)}"></head><body><a href="../${target}">Continue to ${escape(target.replace('/',''))}</a></body></html>`);
@@ -173,7 +178,7 @@ export async function build({ root = project, output = path.join(root, 'dist') }
       if (anchor && !(await readFile(target, 'utf8')).includes(`id="${anchor}"`)) throw new Error(`${route || '/'}: missing anchor ${reference}`);
     }
   }
-  console.log(`Built ${Object.keys(pages).length} pages, 3 redirects, and 404 into ${output}`);
+  console.log(`Built ${Object.keys(pages).length} pages, ${Object.keys(aliases).length} redirects, and 404 into ${output}`);
   return output;
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await build();

@@ -30,9 +30,20 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   assert.match(home,/href="#upcoming-events"/);
   assert.match(home,/href="https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLScYCgVK5HCoI1dmgLjPeniAA29OI0rCodhOnK7_-VqoZvYPIw\/viewform\?usp=sharing&amp;ouid=112523625594007399092"/);
   assert.ok(!home.includes("columbiagwc+subscribe"));
-  const past=await readFile(path.join(out,'past-events/index.html'),'utf8');
+  assert.match(home,/target="_blank" rel="noopener noreferrer">Join the newsletter/);
+  const boardPage=await readFile(path.join(out,'board/index.html'),'utf8');
+  for (const [,member] of boardPage.matchAll(/<article class="member">([\s\S]*?)<\/article>/g)) {
+    assert.ok(!member.includes('instagram.com') && !member.includes('mailto:'));
+    assert.ok(member.includes('linkedin.com'));
+  }
+  assert.ok(!home.split('<footer>')[1].includes('linkedin.com'));
+  const programsPage=await readFile(path.join(out,'programs/index.html'),'utf8');
+  assert.ok(!programsPage.includes('Ask about upcoming classes'));
+
+  const past=await readFile(path.join(out,'events/index.html'),'utf8');
+  assert.ok(past.indexOf('First event') < past.indexOf('A past event'));
   assert.match(past,/Event attendees/);assert.match(past,/A caption &lt;with&gt; text/);
-  const routes=['index.html','programs/index.html','committees/index.html','board/index.html','past-events/index.html','blank/index.html','blank-1/index.html','blank-2/index.html'];
+  const routes=['index.html','programs/index.html','committees/index.html','board/index.html','events/index.html','past-events/index.html','blank/index.html','blank-1/index.html','blank-2/index.html'];
   for(const route of routes){
     const html=await readFile(path.join(out,route),'utf8');
     for(const [,raw] of html.matchAll(/(?:href|src)="([^"]+)"/g)){

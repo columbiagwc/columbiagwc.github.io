@@ -295,6 +295,7 @@ a, button { transition: background-color var(--motion-duration) ease, border-col
   .nav-links { flex-wrap: wrap; min-height: 0; overflow: hidden; }
   .nav-links > a { flex: 1 1 auto; min-height: 44px; padding: 10px 15px; }
   .js .menu-toggle { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: transparent; color: var(--ink); border: 0; padding: 6px; cursor: pointer; }
+  .js .menu-toggle:hover, .js .menu-toggle:focus-visible { color: var(--pink); }
   .menu-toggle:focus-visible { outline: 2px solid var(--pink-text); outline-offset: 3px; }
   .js .nav-wrap nav { display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden; padding: 0; transition: grid-template-rows 240ms ease, opacity 180ms ease, padding 240ms ease, visibility 240ms; }
   .js .menu-toggle[aria-expanded='true'] + nav { grid-template-rows: 1fr; opacity: 1; visibility: visible; padding: 10px 0 12px; }

@@ -20,7 +20,7 @@ Use double quotes in JSON, no trailing commas, and `\n\n` for paragraph breaks. 
 | Committee names, descriptions, icons, photos, destinations | `committees.json` |
 | Class dates, schedule, eligibility, courses, teaching text | `programs.json` |
 | Homepage banner, scroll label, mission text/artwork | `home.json` |
-| Site name/description, logo, navigation, contact/social links, newsletter heading, footer text | `site.json` |
+| Site name/description, logo, tab icon (`favicon`), navigation, contact/social links, newsletter heading, footer text | `site.json` |
 
 ## Buttons and applications
 

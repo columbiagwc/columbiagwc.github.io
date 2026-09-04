@@ -33,7 +33,7 @@ export async function build({ root = project, output = path.join(root, 'dist') }
         if (!/^(https:\/\/|mailto:|[a-z0-9][a-z0-9/-]*(?:#[a-z0-9-]+)?$)/i.test(v)) throw new Error(`${label}: use an HTTPS, mailto, or relative link`);
         if (v.startsWith('https://')) new URL(v);
       }
-      if (['image','logo','heroImage','art','src'].includes(key)) {
+      if (['image','logo','favicon','heroImage','art','src'].includes(key)) {
         requireText(v, label);
         if (!/^assets\/[a-zA-Z0-9_.~/-]+$/.test(v) || v.includes('..')) throw new Error(`${label}: use a file inside public/assets`);
         try { await access(path.join(root, 'public', v)); } catch { throw new Error(`${label}: missing public/${v}`); }
@@ -101,6 +101,8 @@ export async function build({ root = project, output = path.join(root, 'dist') }
   const assetVersion = async file => createHash('sha256').update(await readFile(path.join(root, 'public', file))).digest('hex').slice(0,12);
   const cssVersion = await assetVersion('style.css');
   const jsVersion = await assetVersion('site.js');
+  const faviconVersion = await assetVersion(site.favicon);
+  const favicon = base => `<link rel="icon" type="image/png" href="${base}${escape(site.favicon)}?v=${faviconVersion}">`;
   function render(route, title, body) {
     const base = route ? '../' : './';
     const url = href => /^(https:|mailto:|#)/.test(href) ? href : base + href;
@@ -117,7 +119,7 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     };
     const img = (src, alt, cls = '', eager = false) => `<img src="${escape(base + src)}" alt="${escape(alt)}" class="${cls}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
     const html = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} | GWC Columbia</title><meta name="description" content="${escape(site.description)}"><link rel="canonical" href="${escape(site.url + '/' + route)}"><link rel="stylesheet" href="${base}style.css?v=${cssVersion}"><script src="${base}site.js?v=${jsVersion}" defer></script></head><body class="page-${escape(route.replaceAll('/','') || 'home')}">
+<html lang="en"><head><meta charset="utf-8">${favicon(base)}<meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} | GWC Columbia</title><meta name="description" content="${escape(site.description)}"><link rel="canonical" href="${escape(site.url + '/' + route)}"><link rel="stylesheet" href="${base}style.css?v=${cssVersion}"><script src="${base}site.js?v=${jsVersion}" defer></script></head><body class="page-${escape(route.replaceAll('/','') || 'home')}">
 <a class="skip" href="#main">Skip to content</a>
 <header><div class="nav-wrap"><a class="brand" href="${base}" aria-label="${escape(site.name)} — Home">${img(site.logo, site.name, '', true)}</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">☰</span></button><nav id="main-nav" aria-label="Main navigation">${site.navigation.map(n => `<a href="${escape(url(n.href))}"${tabAttributes(n.href)}${n.href===route ? ' aria-current="page"' : ''}>${escape(n.label)}</a>`).join('')}${button('getInvolved')}</nav></div></header>
 <main id="main">${body({img,link,url,button,tabAttributes})}</main>
@@ -181,10 +183,10 @@ export async function build({ root = project, output = path.join(root, 'dist') }
   const aliases = {'blank':'programs/','blank-1':'committees/','blank-2':'board/','past-events':'events/'};
   for(const [alias,target] of Object.entries(aliases)) {
     await mkdir(path.join(output,alias),{recursive:true});
-    await writeFile(path.join(output,alias,'index.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=../${target}"><title>Page moved</title><link rel="canonical" href="${escape(site.url+'/'+target)}"></head><body><a href="../${target}">Continue to ${escape(target.replace('/',''))}</a></body></html>`);
+    await writeFile(path.join(output,alias,'index.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8">${favicon('../')}<meta http-equiv="refresh" content="0;url=../${target}"><title>Page moved</title><link rel="canonical" href="${escape(site.url+'/'+target)}"></head><body><a href="../${target}">Continue to ${escape(target.replace('/',''))}</a></body></html>`);
   }
   // Absolute homepage link works even when GitHub serves this at a nested missing URL.
-  await writeFile(path.join(output,'404.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(site.notFound.title)}</title></head><body><h1>${escape(site.notFound.title)}</h1><p>${escape(site.notFound.description)}</p><a href="${escape(site.url)}">${escape(site.notFound.label)}</a></body></html>`);
+  await writeFile(path.join(output,'404.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8">${favicon(site.url+'/')}<meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(site.notFound.title)}</title></head><body><h1>${escape(site.notFound.title)}</h1><p>${escape(site.notFound.description)}</p><a href="${escape(site.url)}">${escape(site.notFound.label)}</a></body></html>`);
   // Check the actual edited content too, not just the test fixtures.
   const generatedRoutes = [...Object.keys(pages), ...Object.keys(aliases).map(alias => alias + '/')];
   for (const route of generatedRoutes) {

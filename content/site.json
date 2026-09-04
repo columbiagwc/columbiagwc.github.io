@@ -3,6 +3,7 @@
   "description": "A tech and mentorship community empowering NYC high school girls and supporting Columbia students.",
   "url": "https://columbiagwc.github.io",
   "logo": "assets/logo.png",
+  "favicon": "assets/gwccircle.png",
   "email": "columbiagwc@gmail.com",
   "navigation": [
     {

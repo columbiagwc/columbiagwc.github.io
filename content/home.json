@@ -1,0 +1,21 @@
+{
+  "title": "Girls Who Code @ Columbia",
+  "heroImage": "assets/home-banner.png",
+  "heroAlt": "Girls Who Code at Columbia illustrated banner",
+  "heading": "What we do",
+  "intro": "Girls Who Code @ Columbia is a tech and mentorship community with a dual mission:",
+  "missions": [
+    {
+      "audience": "NYC high school girls",
+      "text": "To empower NYC high school girls through mentorship & outreach"
+    },
+    {
+      "audience": "Columbia students",
+      "text": "To support Columbia students with leadership, growth, and community"
+    }
+  ],
+  "closing": "We don’t just teach code—we build confidence, foster long-term relationships, and create real pathways into tech for young women.",
+  "image": "assets/mission-art.png",
+  "imageAlt": "Girls Who Code Columbia community artwork",
+  "scrollLabel": "Scroll to upcoming events"
+}

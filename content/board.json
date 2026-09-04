@@ -1,0 +1,72 @@
+{
+  "title": "Meet the E-Board",
+  "subtitle": "Columbia University 2025 E-board",
+  "members": [
+    {
+      "name": "Ann Lee",
+      "role": "Co-President",
+      "image": "assets/board/ann-lee.jpg",
+      "bio": "Ann, our Co-President, is a sophomore studying computer science and math. Fun Fact: I like to crochet gifts for my friends! I also like to create illustrations in my free time :) Favorite memory at Columbia/GWC: I love meeting students at our high school coding classes — it’s a great reminder of why I first got into computer science! Advice for (aspiring) coders: Use your coding skills to make things you like or things you would actually use!"
+    },
+    {
+      "name": "Mimansa Kant",
+      "role": "Co-President",
+      "image": "assets/board/mimansa-kant.png",
+      "bio": "Mimansa, our Co-President, is a sophomore studying computer science and economics. Fun Fact: Black belt in taekwondo. Favorite memory at Columbia/GWC: Painting pumpkins at a G-boday event. Advice for (aspiring) coders: Try things even if they seem daunting, you never know what you might end up being interested in!"
+    },
+    {
+      "name": "Hannah Kim",
+      "role": "VP Internal",
+      "image": "assets/board/hannah-kim.png",
+      "bio": "Hannah, our VP Internal, is a sophomore studying computer science and minoring applied math and operations research.\n\nFun fact: I learned English by watching American sitcoms! Favorite memory at Columbia/GWC: When one of the students left behind after the last class of the semester to ask questions about Columbia and career in tech! I loved that we were able to build a trusted mentorship in class. Advice for (aspiring) coders: Try to enjoy the failures, since every one of them are a valuable learning experience!"
+    },
+    {
+      "name": "Sreya Chakraborty",
+      "role": "VP External",
+      "image": "assets/board/sreya-chakraborty.jpg",
+      "bio": "Sreya, our VP External, is a sophomore studying computer science and economics.  Fun Fact: I can play the violin. Favorite memory at Columbia/GWC: Meeting a community of women in computer science through our various events and meetings. Advice for (aspiring) coders: My advice is to focus more on projects and applying your technical skills."
+    },
+    {
+      "name": "Natalie Mckenzie",
+      "role": "Treasurer",
+      "image": "assets/board/natalie-mckenzie.png",
+      "bio": "Natalie, our Treasurer, is a junior studying computer science and minoring in economics. Fun fact: I’ve logged over 1,000 hours on the Sims… Favorite memory at Columbia/GWC: Hosting the graduation for one of our classes! Being able to celebrate the students’ hard work with well-deserved food was really nice. Advice for (aspiring) coders: Ask questions like you paid for it (you did)!"
+    },
+    {
+      "name": "Keona Tang",
+      "role": "Secretary",
+      "image": "assets/board/keona-tang.jpg",
+      "bio": "Keona, our Secretary, is a freshman studying computer science and minoring in math. Fun Fact: I have an extra bone in my foot! Favorite memory at Columbia/GWC: Tree lighting! It's always fun with friends :) Advice for (aspiring) coders: Don't be afraid to \"rubber ducky\" someone! Explaining your code step-by-step can really help you debug."
+    },
+    {
+      "name": "Prasie Gyenwali",
+      "role": "External Engagement Chair",
+      "image": "assets/board/prasie-gyenwali.png",
+      "bio": "Prasie, our External Engagement Chair, is a sophomore studying Computer Science with a minor in Statistics. Fun fact: I own an impressive amount of Stitch (from Lilo & Stitch) merch even though I have never actually watched the movie. If you want the story, we will have to meet :) Favorite GWC/Columbia memory: I have been part of GWC since my freshman year of high school, so being in GWC at Columbia truly feels like home. One of my favorite moments was our Flower Knows event. Seeing so many girls come together and connect was really special. Advice for (aspiring) coders: Your brain literally gets better with practice. The more you show up and work through problems, the easier it becomes over time. Be patient, stay consistent, and trust the process. It will click."
+    },
+    {
+      "name": "Grace Li",
+      "role": "Internal Engagement Chair",
+      "image": "assets/board/grace-li.jpg",
+      "bio": "Grace, our Internal Engagement Chair, is a freshman studying computer science and math.  Fun Fact: I'm a dancer! I dance with Columbia Repertory Ballet and Columbia Ballet Collaborative here at school. Favorite memory at Columbia/GWC: Frantically trying to get everything we needed for the April Fools event the night before haha. Advice for (aspiring) coders: Find a topic that interests you and start your own personal project!"
+    },
+    {
+      "name": "Elizabeth Ting",
+      "role": "Co-Curriculum Chair",
+      "image": "assets/board/elizabeth-ting.jpg",
+      "bio": "Elizabeth, our Curriculum Chair, is a junior studying computer science and minoring in economics. Fun Fact: I love collecting plants, especially succulents! Favorite memory at Columbia/GWC: Teaching my first class. I was super nervous, but my co-teachers were incredibly supportive, and the students were really engaged. It reminded me why I love teaching and being part of this community! Advice for (aspiring) coders: Stay curious and ask a lot of questions!"
+    },
+    {
+      "name": "Tiffany Zheng",
+      "role": "Co-Curriculum Chair",
+      "image": "assets/board/tiffany-zheng.png",
+      "bio": "Tiffany, our Co-Curriculum Chair, is a second-year studying computer science and minoring in operations research & English. Fun Fact: I’ve met my favorite author twice! Favorite memory at Columbia/GWC: Flower Knows Event!! It was so great to see everybody bond over another shared interest besides code. Advice for (aspiring) coders: try everything at least twice even in life; you never know if your first experience was just a bad one !!"
+    },
+    {
+      "name": "Laura Avila",
+      "role": "Head Web Developer",
+      "image": "assets/board/laura-avila.png",
+      "bio": "Laura, our Head Web Developer, is a freshman studying Computer Engineering. Fun fact: I love creating art, from oil painting to sketching with the Columbia Artist Society. Favorite memory at Columbia/GWC: Helping design the GWC website and creating cute stickers for Activities Day! Advice for aspiring coders: Don’t be afraid to try hackathons — they aren’t scary! And don’t feel like you don’t know enough to start a project, because starting projects is precisely how you build new skills."
+    }
+  ]
+}

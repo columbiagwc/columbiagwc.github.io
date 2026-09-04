@@ -1,0 +1,59 @@
+{
+  "title": "Committees",
+  "intro": "Welcome to Girls Who Code Columbia!  We’re excited to share our 7 committees, each offering unique ways to get involved. Take a look around and find the one that fits your interests best. There’s a place for everyone to contribute, connect, and grow!",
+  "image": "assets/committees-art.jpg",
+  "applicationUrl": "https://docs.google.com/forms/d/e/1FAIpQLSe-FvtCBr2JGiNj2GpGMSsVdG1HQKBLvOi_FOWV0-hWAgPC4Q/viewform",
+  "applyLabel": "Apply!",
+  "learnMoreLabel": "Learn more",
+  "items": [
+    {
+      "id": "teaching",
+      "title": "Teaching",
+      "summary": "Seeking enthusiastic CS teachers.",
+      "description": "Enthusiastic, communicative, and compassionate teachers who look forward to working with high school students. Openings for Class 1 (introductory computer science with Python), Class 2 (web development using HTML/CSS and Javascript) and Class 3 (introductory data science with Python).",
+      "href": "programs/#teaching",
+      "image": "assets/committees/teaching.jpg"
+    },
+    {
+      "id": "finance",
+      "title": "Sponsors & Finance",
+      "description": "Someone who has the organization and creativity to find companies and ways to contact them in order to financially support GWC-CU. Students who would like to take part in managing the finances of the Girls Who Code Columbia chapter.",
+      "image": "assets/committees/finance.jpg",
+      "art": "assets/committees/finance-art.jpg"
+    },
+    {
+      "id": "recruitment",
+      "title": "High School Recruitment",
+      "description": "Someone who is passionate and excited about increasing the number of young women in tech, and believes in the benefits of high school outreach. Students who would like to contribute towards recruiting high school students for our classrooms and foster mentorship/panel opportunities for our high school students.",
+      "image": "assets/committees/recruitment.jpg",
+      "art": "assets/committees/recruitment-art.png"
+    },
+    {
+      "id": "engagement",
+      "title": "Engagement",
+      "description": "Someone who is organized, responsive, enthusiastic, timely, and creative. Students who would like to help build and foster a fun, inclusive, and engaging community for our students and club members.",
+      "image": "assets/committees/engagement.jpg",
+      "art": "assets/committees/engagement-art.png"
+    },
+    {
+      "id": "media",
+      "title": "Media Outreach",
+      "description": "Someone who is artistic, creative, organized, and responsive. Students who would like to make sure our social media are aesthetic, informative, and up to date!",
+      "image": "assets/committees/media.jpg",
+      "art": "assets/committees/media-art.png"
+    },
+    {
+      "id": "curriculum",
+      "title": "Curriculum",
+      "description": "Someone who is collaborative, organized, and good at meeting deadlines. Students who would like to contribute towards the organization and structure of our curriculum.",
+      "image": "assets/committees/curriculum.jpg",
+      "art": "assets/committees/curriculum-art.png"
+    },
+    {
+      "id": "web-development",
+      "title": "Web Development",
+      "description": "We’re looking for students who are collaborative, organized, and able to meet deadlines to help manage and improve our website. As part of the web development team, you’ll ensure that our site is informative, user-friendly, and always up to date. This role is perfect for students who want to apply their technical and creative skills while contributing to the structure, accessibility, and overall design of our digital presence.",
+      "image": "assets/committees/web-development.jpg"
+    }
+  ]
+}

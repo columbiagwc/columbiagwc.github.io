@@ -1,0 +1,49 @@
+{
+  "title": "High School Programs",
+  "heading": "Welcome",
+  "image": "assets/programs-art.jpg",
+  "intro": [
+    "Girls Who Code offers free high school classes for girls across NYC! Whether you’re brand new to coding or just curious to explore, our program combines hands-on learning with mentorship and speaker panels. Students gain technical skills, build confidence, and join a supportive community of peers and mentors.",
+    "High school students can explore upcoming classes and start their coding journey, while teachers can learn more about how to support their students and connect them with opportunities."
+  ],
+  "studentLabel": "HS Students",
+  "teacherLabel": "Columbia/Barnard Students",
+  "term": {
+    "title": "Fall 2025 Classes",
+    "status": "archived",
+    "notice": "These are the Fall 2025 program details. Contact us for upcoming class dates and applications.",
+    "heading": "Girls Who Code @ Columbia — Fall 2025 Student Application",
+    "description": "Join us this fall for free in-person coding classes at Columbia University’s Mudd Building. Our mission is to increase gender diversity in tech by teaching high school students how to code in a supportive community led by Columbia students.",
+    "schedule": [
+      "Classes ran Saturdays, October 11 through early December, 2025.",
+      "Introduction to Python: 10:00 AM – 12:30 PM",
+      "Web Development: 1:00 PM – 3:30 PM"
+    ],
+    "eligibility": "Applications are open to 9th–12th-grade female and nonbinary students in NYC. We prioritize beginners and those with limited access to computer science resources.",
+    "deadline": "September 28, 2025 at 11:59 PM",
+    "attendance": "Acceptances were emailed after the application closed. Attendance was mandatory for all sessions.",
+    "deadlineLabel": "Application deadline",
+    "applyLabel": "Apply!",
+    "closedLabel": "Ask about upcoming classes",
+    "applicationUrl": "https://docs.google.com/forms/d/e/1FAIpQLSemSfAxhkksjsmB5FBc4dlUPJu7TauDUE8eDArrEEfozbZqsg/viewform"
+  },
+  "courses": [
+    {
+      "title": "Python",
+      "description": "Learn the core ideas of programming—variables, data types, loops, and functions—and see how they fit together to make powerful tools. Through guided exercises, you’ll practice turning concepts into working code by creating quizzes, calculators, and mini-games, while also building the problem-solving mindset that programmers rely on."
+    },
+    {
+      "title": "Web Development",
+      "description": "Explore HTML, CSS, and JavaScript while designing and building your own website from scratch.By the end of the program, every student will complete a personal project to showcase their learning and receive guidance from Columbia and Barnard mentors on how to continue growing their skills"
+    }
+  ],
+  "teaching": {
+    "title": "Teaching Team",
+    "heading": "About",
+    "description": "Enthusiastic, communicative, and compassionate teachers who look forward to working with high school students. Openings for Class 1 (introductory computer science with Python), Class 2 (web development using HTML/CSS and Javascript) and Class 3 (introductory data science with Python).",
+    "image": "assets/committees/teaching.jpg",
+    "imageAlt": "Girls Who Code teaching community",
+    "applyLabel": "Teaching application",
+    "applicationUrl": "https://docs.google.com/forms/d/e/1FAIpQLSd5ZDZsTVQQR9lXsgVn_7w5SoYH4xE3s17QYCmKuy6obZCpQg/viewform"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "name": "Girls Who Code @ Columbia",
+  "description": "A tech and mentorship community empowering NYC high school girls and supporting Columbia students.",
+  "url": "https://columbiagwc.github.io",
+  "logo": "assets/logo.png",
+  "email": "columbiagwc@gmail.com",
+  "navigation": [
+    {
+      "label": "High School Programs",
+      "href": "programs/"
+    },
+    {
+      "label": "Committees",
+      "href": "committees/"
+    },
+    {
+      "label": "E-Board",
+      "href": "board/"
+    },
+    {
+      "label": "Past Events",
+      "href": "past-events/"
+    }
+  ],
+  "getInvolved": {
+    "label": "Get Involved",
+    "href": "https://docs.google.com/forms/d/e/1FAIpQLScYCgVK5HCoI1dmgLjPeniAA29OI0rCodhOnK7_-VqoZvYPIw/viewform"
+  },
+  "socials": [
+    {
+      "label": "Instagram",
+      "href": "https://www.instagram.com/girlswhocodecolumbia/",
+      "image": "assets/450db0_cd9258a18a3b424b9077466f53e5b1b4~mv2.png"
+    },
+    {
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/company/girls-who-code-at-columbia-university/",
+      "image": "assets/450db0_283e9c71bb0f4c3382f82725ece26197~mv2.png"
+    }
+  ],
+  "newsletter": {
+    "title": "Sign up for our newsletter!",
+    "description": "Stay up to date on our events, programs, and opportunities!",
+    "label": "Join the newsletter",
+    "href": "mailto:columbiagwc+subscribe@googlegroups.com?subject=Subscribe&body=Please%20subscribe%20me%20to%20the%20Columbia%20Girls%20Who%20Code%20newsletter.",
+    "email": "columbiagwc@googlegroups.com",
+    "joinHelp": "Send the subscription email, then follow Google’s confirmation instructions."
+  },
+  "footer": {
+    "contactTitle": "Contact",
+    "socialTitle": "Follow us!",
+    "copyright": "Girls Who Code — Columbia",
+    "updatedLabel": "Last updated"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page may have moved. Visit our home page to find programs, committees, and our team.",
+    "label": "Back to home"
+  }
+}

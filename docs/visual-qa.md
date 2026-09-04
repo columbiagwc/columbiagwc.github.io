@@ -16,3 +16,10 @@ Inspected final screenshots and ran browser assertions for all five routes at 14
 ## UX follow-up
 
 Verified the enlarged mission panel, shared rounded cards/buttons, navigation hover colors (including white Get Involved text on pink), newsletter new-tab attributes, removal of Instagram/email from board cards and LinkedIn from the footer, and hidden application buttons for archived classes. The combined `/events/` page puts upcoming events before past events; the old path redirects. All five pages passed desktop/mobile overflow and image/font checks. Real in-page navigation triggered Chrome's native cross-document transition; reduced-motion emulation disabled animations and smooth scrolling. Other browsers retain normal navigation when native transitions are unsupported.
+
+## Editable applications and committee navigation
+
+- Verified all five pages at 1440px and 390px: no horizontal overflow, missing images, or browser errors; newsletter buttons open the updated Google Form in a new tab.
+- Reviewed committee navigation with seven matching outline icons and rounded committee-name links.
+- Checked navigation hover colors, mobile menu, galleries, scroll cue, native page transitions, and reduced-motion behavior.
+- Build tests cover closing/reopening applications, changing their URLs, shared newsletter notices, and hiding board members.

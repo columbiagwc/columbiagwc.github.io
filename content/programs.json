@@ -22,9 +22,7 @@
     "eligibility": "Applications are open to 9th–12th-grade female and nonbinary students in NYC. We prioritize beginners and those with limited access to computer science resources.",
     "deadline": "September 28, 2025 at 11:59 PM",
     "attendance": "Acceptances were emailed after the application closed. Attendance was mandatory for all sessions.",
-    "deadlineLabel": "Application deadline",
-    "applyLabel": "Apply!",
-    "applicationUrl": "https://docs.google.com/forms/d/e/1FAIpQLSemSfAxhkksjsmB5FBc4dlUPJu7TauDUE8eDArrEEfozbZqsg/viewform"
+    "deadlineLabel": "Application deadline"
   },
   "courses": [
     {
@@ -41,8 +39,6 @@
     "heading": "About",
     "description": "Enthusiastic, communicative, and compassionate teachers who look forward to working with high school students. Openings for Class 1 (introductory computer science with Python), Class 2 (web development using HTML/CSS and Javascript) and Class 3 (introductory data science with Python).",
     "image": "assets/committees/teaching.jpg",
-    "imageAlt": "Girls Who Code teaching community",
-    "applyLabel": "Teaching application",
-    "applicationUrl": "https://docs.google.com/forms/d/e/1FAIpQLSd5ZDZsTVQQR9lXsgVn_7w5SoYH4xE3s17QYCmKuy6obZCpQg/viewform"
+    "imageAlt": "Girls Who Code teaching community"
   }
 }

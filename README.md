@@ -1,108 +1,119 @@
-# Girls Who Code at Columbia
+# Columbia Girls Who Code website
 
-A GitHub Pages website rebuilt from the [published Wix site](https://columbiagwc.wixsite.com/gwc-columbia). The website is generated from editable JSON content and local images. Routine updates do not require editing HTML, CSS, or JavaScript. There are no npm dependencies, Wix services, or client-side JavaScript required to display the pages.
+[Live site](https://columbiagwc.github.io/) · Content is edited in JSON files; no HTML changes are needed for routine updates.
 
-## Update the website through a PR
+## Make an update
 
-1. Create a branch in GitHub (or locally).
-2. Edit the appropriate file below. GitHub's pencil button works for text edits.
-3. Upload new images with **Add file → Upload files** on the same branch. Use descriptive filenames without spaces.
-4. Open a PR. The **Check and deploy website** workflow validates the content and builds the entire site. Its `website-preview` artifact contains the generated pages for review; it is not a publicly hosted PR preview.
-5. After review, merge into `main`. GitHub Actions builds and deploys the updated website, including the footer's last-updated date.
+1. Create a branch in GitHub. Edit a file with the pencil button; upload images with **Add file → Upload files** on the same branch.
+2. Open a PR. Wait for **Check and deploy website** to pass, then review and merge into `main`.
+3. GitHub deploys the change. The footer automatically shows the deployed commit’s date.
 
-| What to change | File |
+Use double quotes in JSON, no trailing commas, and `\n\n` for paragraph breaks. Edit source files—not the generated `dist/` folder.
+
+## Where to edit
+
+| Change | File in `content/` |
 | --- | --- |
-| Home artwork, scroll label, mission | `content/home.json` |
-| Upcoming events and past-event galleries | `content/events.json` |
-| Classes, deadlines, application links, teaching | `content/programs.json` |
-| Committee descriptions and photos | `content/committees.json` |
-| Board year, names, roles, biographies, photos | `content/board.json` |
-| Navigation, newsletter, contact links, footer text | `content/site.json` |
-| Images | `public/assets/` |
-| Layout and styling | `scripts/build.mjs`, `public/style.css` |
+| External button links/labels; close or reopen applications | `buttons.json` |
+| Board year, names, roles, bios, photos, display order | `board.json` |
+| Upcoming events and past-event photo galleries | `events.json` |
+| Committee names, descriptions, icons, photos, destinations | `committees.json` |
+| Class dates, schedule, eligibility, courses, teaching text | `programs.json` |
+| Homepage banner, scroll label, mission text/artwork | `home.json` |
+| Site name/description, logo, navigation, contact/social links, newsletter heading, footer text | `site.json` |
 
-JSON uses double quotes and no trailing commas. Text is plain text, not HTML; use `\n\n` inside a string to separate paragraphs in event descriptions and board biographies. Keep image paths relative to `public/`, for example `assets/board/ann-lee.jpg`.
+## Buttons and applications
 
-## Add an upcoming event
+**Every external button URL is in `content/buttons.json`:** `getInvolved`, `newsletter`, `teachingApplication`, `committeeApplication`, and `studentApplication`.
 
-Add an object to the `upcoming` array in `content/events.json`. This is an illustrative record; replace every detail with your actual event information:
+- Change `href` to update a link or `label` to change its text.
+- `newTab: true` opens a new tab. Newsletter buttons already use this.
+- For an application, change `"disabled": false` to **`"disabled": true`** to close it. Its button is replaced with `closedMessage` and a newsletter link. Edit the message freely.
+- Set `disabled` back to `false` to reopen. Keep the URL in place while closed.
+
+For example, the teaching application can be closed with:
+
+```json
+"disabled": true,
+"closedMessage": "The teaching application is currently closed. Join our newsletter for updates when we open applications!"
+```
+
+Changing `newsletter.href` updates **all** newsletter buttons, including closed-application notices. No signup data is stored by this website; forms handle submissions.
+
+**High school classes:** also update `programs.json` → `term` (title, dates, deadline, schedule, eligibility, notice). `term.status` is `open`, `closed`, or `archived`. Course application buttons appear only for an open term; their link and disabled setting live in `buttons.json` → `studentApplication`.
+
+## Board members
+
+In `board.json`, update `subtitle` for the board year. Each object in `members` has:
 
 ```json
 {
-  "id": "fall-coding-workshop",
-  "title": "Fall coding workshop",
-  "date": "2026-10-10",
-  "time": "2:00–4:00 PM ET",
-  "location": "Add the confirmed location",
-  "description": "Add the event description.",
-  "link": {
-    "label": "Register",
-    "href": "https://example.com/replace-with-registration-form"
-  }
+  "name": "Member name",
+  "role": "Position",
+  "image": "assets/board/member-name.jpg",
+  "bio": "Introduction.\n\nFun fact or advice."
 }
 ```
 
-`id`, `title`, `date`, and `description` are required. `time`, `location`, `link`, `image`, `imageAlt`, and `photos` are optional. IDs must be unique lowercase slugs across both lists. Dates use `YYYY-MM-DD`. Upcoming events sort earliest first; past events sort newest first. These are explicit lists: after an event, move its object from `upcoming` to `past` in a PR. They do not silently move based on a visitor's clock.
+Add/remove an object to add/remove a person. Reorder objects to change display order (left to right on desktop, top to bottom on mobile). Add `"visible": false` to temporarily hide someone; remove it or set it to `true` to show them. Upload their photo to `public/assets/board/`.
 
-## Upload past-event photos
+## Events and photos
 
-1. Move the event into `past`, or add a new past-event record with the same required fields.
-2. Upload photos to `public/assets/events/<event-id>/` on your branch. Prefer JPEG/WebP photos around 1600 pixels wide and under 1 MB each.
-3. Add a `photos` array to the event:
+In `events.json`, add an object to `upcoming` or `past`:
 
 ```json
-"photos": [
-  {
-    "src": "assets/events/fall-coding-workshop/group.jpg",
-    "alt": "Workshop participants showing their completed projects",
-    "caption": "Our completed projects!"
-  },
-  {
-    "src": "assets/events/fall-coding-workshop/coding.jpg",
-    "alt": "Students working together on a coding exercise"
-  }
-]
+{
+  "id": "coding-workshop",
+  "title": "Coding workshop",
+  "date": "2026-10-10",
+  "time": "2–4 PM ET",
+  "location": "Confirmed location",
+  "description": "Event details.",
+  "link": { "label": "Register", "href": "https://example.com/registration" },
+  "photos": [
+    {
+      "src": "assets/events/coding-workshop/group.jpg",
+      "alt": "Participants showing their projects",
+      "caption": "Our finished projects!"
+    }
+  ]
+}
 ```
 
-Each photo needs `src` and descriptive `alt` text. Captions are optional. Photos appear in the supplied order and open at full size when selected. The build rejects missing files. No Wix uploads or external image hosting are needed.
+Replace the example details. Required: `id`, `title`, `date`, `description`. IDs must be unique lowercase names with hyphens; dates use `YYYY-MM-DD`. Other fields are optional. A cover image uses `image` and `imageAlt`.
 
-## Newsletter
+Upload gallery photos to `public/assets/events/<event-id>/`. Each photo needs `src` and descriptive `alt`; `caption` is optional. Photos display in array order.
 
-The footer and upcoming-event buttons open the newsletter Google Form in a new tab. Update `newsletter.href` in `content/site.json` to change the signup destination. The form handles collecting responses; the website does not send subscription emails.
+Upcoming events sort earliest first; past events sort newest first. **Move an event from `upcoming` to `past` after it happens.** Events do not move automatically. The homepage shows upcoming events; `/events/` shows both lists. Page headings and empty-state messages are also in `events.json`.
 
-## Program and board dates
+## Committees
 
-The source Wix site identifies its classes and board as **2025**. Those dates and profiles have been preserved. The expired Fall 2025 student application is marked `archived`, and its button contacts the club instead of presenting it as an open application. To open a new term, update all term details and its application URL in `content/programs.json`, then change `term.status` to `open`. `closed` and `archived` both show `term.notice` and hide the course application buttons. Existing teaching and committee application links are preserved from Wix; confirm them before the next recruitment cycle.
+Edit or add an object in `committees.json` → `items`. Use a unique `id`, a `title`, `description`, `image`, and `icon`. Reorder objects to reorder navigation and sections. Update the page `intro` if the committee count changes.
 
-## Last-updated date
+- Icons: `book`, `wallet`, `megaphone`, `community`, `camera`, `notebook`, `code`.
+- `art` adds a second gallery image; omit it if not needed.
+- The committee-name button normally scrolls to its section. Optional `href` overrides its destination. Teaching uses `programs/#teaching` and its details live on the Programs page.
+- The overall committee application is controlled in `buttons.json`.
 
-Every generated page's footer shows the deployed Git commit's committer date, formatted in `America/New_York`. The Actions workflow gets this date with `git log -1 --format=%cI` and supplies `SITE_COMMIT_DATE` to the build. Every new deployed commit automatically updates the footer. Redeploying the **same commit** retains that commit's date; it does not pretend the content changed. Local builds use the latest local commit, or the current time only when running outside a Git checkout. Uncommitted preview edits do not change the commit timestamp.
+## Images, navigation, and design
 
-## Local development
+Put images in `public/assets/`. Reference them without `public/`, e.g. `assets/board/member.jpg`. Use filenames without spaces; photos around 1600px wide and under 1 MB load faster. Missing files fail the build.
 
-Use Node.js 22 or later. No dependency installation is required.
+In `site.json`, `navigation` controls top-bar labels/order/links, `socials` controls **Follow us**, and `profileSocials` controls board-profile social links. Add/remove objects to change links. Internal paths look like `events/`; external links start with `https://`.
+
+For design changes: `public/style.css` controls colors, rounding, spacing, and transitions; `scripts/build.mjs` controls page layouts; `scripts/icons.mjs` defines the committee icons; `public/site.js` handles the mobile menu and galleries.
+
+## Preview and publishing
+
+Use Node.js 22+. No dependency installation is needed.
 
 ```sh
 npm test
-npm run build
 npm run dev
 ```
 
-Open the URL printed by `npm run dev`. After editing content or styling, run `npm run build` in a second terminal and refresh. The server is bound to localhost. Set `PORT` if needed. `dist/` is generated and ignored by Git; edit the source content, never `dist/`.
+Open the printed local URL. After edits, run `npm run build` in another terminal and refresh. PRs build/test and provide a downloadable `website-preview` artifact; they do not publish a live preview.
 
-Checks cover generated internal links and anchors, local images, event date validation and ordering, galleries, escaped content, and the commit-date footer. All page content is available without JavaScript. Layouts adapt to smaller screens, include keyboard focus and skip navigation, and respect reduced-motion settings.
+**One-time admin setting:** in GitHub **Settings → Pages**, select **Source → GitHub Actions**. The legacy “Deploy from a branch” mode can overwrite the generated site. Publishing runs from `main` via `.github/workflows/pages.yml`.
 
-## GitHub Pages setup (one time)
-
-The existing Pages address is `https://columbiagwc.github.io/`. To configure this generator:
-
-1. In this repository's **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**.
-2. Keep the existing GitHub Pages address. The old checkout contained a stale `CNAME` for `gwcatcolumbia.com`, but GitHub reports no custom domain configured; that stale file has been removed. No DNS changes are needed.
-3. Allow the `github-pages` environment to deploy from `main`.
-4. Run the workflow on `main`, or merge a PR into `main`. Pull requests only build and test; they do not deploy.
-
-The workflow follows [GitHub's custom Pages workflow guidance](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages). If you later configure a custom domain in GitHub, add a root `CNAME` and update `content/site.json` (`url`). The build copies `CNAME` only when present. The Events page lists upcoming events above past events; `/past-events/` redirects to `/events/`. Clean routes are `/programs/`, `/committees/`, `/board/`, and `/events/`; `/blank/`, `/blank-1/`, and `/blank-2/` redirect to the corresponding rebuilt pages for links using the old Wix path names on the new domain.
-
-## Migration provenance
-
-Content and images were retrieved from the Wix site's Home, High School Programs, Committees, and E-Board pages on September 3, 2026. Original image URLs are recorded in `content/asset-sources.json`; photographs are resized for web delivery. The linked `columbiagwc/GWC-website` repository contains Wix scaffolding rather than standalone page layouts, so the site was rebuilt from its published content. No event records were invented. The old Wix site and the Google Forms/Google Group are not modified by this repository.
+The old `/past-events/` path redirects to `/events/`; `/blank/`, `/blank-1/`, and `/blank-2/` redirect to the migrated pages. For a future custom domain, configure it in GitHub, add a root `CNAME`, and update `site.json` → `url`.

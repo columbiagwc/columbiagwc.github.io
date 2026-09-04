@@ -1,0 +1,29 @@
+{
+  "getInvolved": {
+    "label": "Get Involved",
+    "href": "https://docs.google.com/forms/d/e/1FAIpQLScYCgVK5HCoI1dmgLjPeniAA29OI0rCodhOnK7_-VqoZvYPIw/viewform"
+  },
+  "newsletter": {
+    "label": "Join the newsletter",
+    "href": "https://docs.google.com/forms/d/e/1FAIpQLSc1GnVPSFEHVjuPZArO3jDL5GToq2BFp-mm5cii-Q6EJkpRiw/viewform?usp=publish-editor",
+    "newTab": true
+  },
+  "teachingApplication": {
+    "label": "Teaching application",
+    "href": "https://docs.google.com/forms/d/e/1FAIpQLSd5ZDZsTVQQR9lXsgVn_7w5SoYH4xE3s17QYCmKuy6obZCpQg/viewform",
+    "disabled": false,
+    "closedMessage": "The teaching application is currently closed. Join our newsletter for updates when we open applications!"
+  },
+  "committeeApplication": {
+    "label": "Committee application",
+    "href": "https://docs.google.com/forms/d/e/1FAIpQLSe-FvtCBr2JGiNj2GpGMSsVdG1HQKBLvOi_FOWV0-hWAgPC4Q/viewform",
+    "disabled": false,
+    "closedMessage": "The committee application is currently closed. Join our newsletter for updates when we open applications!"
+  },
+  "studentApplication": {
+    "label": "Apply!",
+    "href": "https://docs.google.com/forms/d/e/1FAIpQLSemSfAxhkksjsmB5FBc4dlUPJu7TauDUE8eDArrEEfozbZqsg/viewform",
+    "disabled": false,
+    "closedMessage": "The student application is currently closed. Join our newsletter for updates when we open applications!"
+  }
+}

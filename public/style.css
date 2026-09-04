@@ -181,9 +181,29 @@ header { background: var(--green); }
 .committees-intro .button { margin-top: 25px; min-width: 140px; }
 .committee-nav { background: var(--teal); color: var(--cream); }
 .committee-nav > .section { display: grid; grid-template-columns: repeat(7,1fr); gap: 14px; text-align: center; padding: 55px 0; }
-.committee-symbol { display: block; color: #f5c9d2; font-size: 40px; line-height: 1; margin-bottom: 18px; }
-.committee-nav p { font-size: 16px; min-height: 48px; }
-.committee-nav .button { padding: 6px 10px; background: var(--green); color: var(--ink); font-size: 14px; min-height: 36px; }
+
+.committee-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 150px;
+  padding: 18px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--card-radius);
+  background: var(--green);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.committee-link:hover, .committee-link:focus-visible { border-color: var(--pink); }
+.committee-icon { width: 34px; height: 34px; color: var(--pink-text); flex-shrink: 0; }
+.application-closed { padding: 24px; border-radius: var(--card-radius); background: var(--cream); color: var(--ink); }
+.application-closed p { margin-bottom: 18px; }
+.application-closed .button { margin: 0; background: var(--teal); color: white; }
+
 .committee-band { padding: 60px; }
 .committee-band.alternate { background: var(--cream); }
 .committee { width: 100%; max-width: 1320px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; background: var(--cream); }
@@ -239,7 +259,7 @@ a, button { transition: background-color var(--motion-duration) ease, border-col
 .gallery-thumbs a { transition: opacity var(--motion-duration) ease; }
 .button:hover, .button:focus-visible { box-shadow: 0 3px 10px #087d7424; }
 .actions .button:hover, .actions .button:focus-visible,
-.committee-nav .button:hover, .committee-nav .button:focus-visible { background: var(--cream); color: var(--pink-text); }
+.committee-link:hover, .committee-link:focus-visible { background: var(--cream); color: var(--pink-text); }
 .course .button:hover, .committees-intro .button:hover { background: var(--pink-text); }
 /* Native cross-document transitions preserve browser navigation and history. */
 @view-transition { navigation: auto; }
@@ -299,7 +319,6 @@ a, button { transition: background-color var(--motion-duration) ease, border-col
   .committees-hero { min-height: 540px; padding: 45px 24px; }
   .committees-intro { padding: 40px 25px; }
   .committee-nav > .section { grid-template-columns: repeat(2,1fr); gap: 30px 20px; }
-  .committee-nav .button { min-height: 44px; }
   .committee-band { padding: 30px 24px; }
   .committee { grid-template-columns: 1fr; gap: 0; padding: 0; }
   .committee-copy { padding: 25px; }

@@ -22,10 +22,6 @@
       "href": "events/"
     }
   ],
-  "getInvolved": {
-    "label": "Get Involved",
-    "href": "https://docs.google.com/forms/d/e/1FAIpQLScYCgVK5HCoI1dmgLjPeniAA29OI0rCodhOnK7_-VqoZvYPIw/viewform"
-  },
   "socials": [
     {
       "label": "Instagram",
@@ -35,9 +31,7 @@
   ],
   "newsletter": {
     "title": "Sign up for our newsletter!",
-    "description": "Stay up to date on our events, programs, and opportunities!",
-    "label": "Join the newsletter",
-    "href": "https://docs.google.com/forms/d/e/1FAIpQLScYCgVK5HCoI1dmgLjPeniAA29OI0rCodhOnK7_-VqoZvYPIw/viewform?usp=sharing&ouid=112523625594007399092"
+    "description": "Stay up to date on our events, programs, and opportunities!"
   },
   "footer": {
     "contactTitle": "Contact",

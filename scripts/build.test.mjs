@@ -28,7 +28,7 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   assert.ok(home.indexOf('First event')<home.indexOf('Later event'));
   assert.ok(home.indexOf('id="upcoming-events"')<home.indexOf('class="mission'));
   assert.match(home,/href="#upcoming-events"/);
-  assert.match(home,/href="https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLScYCgVK5HCoI1dmgLjPeniAA29OI0rCodhOnK7_-VqoZvYPIw\/viewform\?usp=sharing&amp;ouid=112523625594007399092"/);
+  assert.match(home,/href="https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLSc1GnVPSFEHVjuPZArO3jDL5GToq2BFp-mm5cii-Q6EJkpRiw\/viewform\?usp=publish-editor"/);
   assert.ok(!home.includes("columbiagwc+subscribe"));
   assert.match(home,/target="_blank" rel="noopener noreferrer">Join the newsletter/);
   const boardPage=await readFile(path.join(out,'board/index.html'),'utf8');
@@ -58,6 +58,25 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   }
   assert.equal((await readFile(path.join(out,'CNAME'),'utf8')).trim(),'example.org');
   await access(path.join(out,'.nojekyll'));
+  // Closing applications must remove their destinations and show the shared newsletter form.
+  const buttons=JSON.parse(await readFile(path.join(root,'content/buttons.json'),'utf8'));
+  await edit('buttons',d=>{d.teachingApplication.disabled=true;d.committeeApplication.disabled=true;});
+  await edit('board',d=>{d.members[0].visible=false;});
+  await build({root});
+  const closedPrograms=await readFile(path.join(out,'programs/index.html'),'utf8');
+  const closedCommittees=await readFile(path.join(out,'committees/index.html'),'utf8');
+  assert.ok(closedPrograms.includes(buttons.teachingApplication.closedMessage));
+  assert.ok(closedCommittees.includes(buttons.committeeApplication.closedMessage));
+  assert.ok(!closedPrograms.includes(buttons.teachingApplication.href));
+  assert.ok(!closedCommittees.includes(buttons.committeeApplication.href));
+  assert.ok(closedPrograms.includes(buttons.newsletter.href));
+  assert.ok(closedCommittees.includes(buttons.newsletter.href));
+  assert.ok(!closedCommittees.includes('Learn more'));
+  assert.ok(!closedCommittees.includes('◖◗'));
+  assert.ok(!(await readFile(path.join(out,'board/index.html'),'utf8')).includes('alt="Ann Lee"'));
+  await edit('buttons',d=>{d.teachingApplication.disabled=false;d.teachingApplication.href='https://example.com/new-teaching-form';});
+  await build({root});
+  assert.ok((await readFile(path.join(out,'programs/index.html'),'utf8')).includes('https://example.com/new-teaching-form'));
   await edit('events',d=>{d.upcoming[0].date='2026-02-30';});
   await assert.rejects(build({root}),/Invalid event date/);
   await edit('events',d=>{d.upcoming[0].date='2026-10-20';d.upcoming[0].link={label:'Unsafe',href:'javascript:alert(1)'};});

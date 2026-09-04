@@ -4,14 +4,21 @@ const navigation = document.querySelector('#main-nav');
 if (toggle && navigation) {
   toggle.hidden = false;
   document.documentElement.classList.add('js');
-  toggle.addEventListener('click', () => {
-    const expanded = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!expanded));
+  const mobileMenu = matchMedia('(max-width: 760px)');
+  const setExpanded = expanded => {
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.setAttribute('aria-label', expanded ? 'Close navigation menu' : 'Open navigation menu');
+    navigation.inert = mobileMenu.matches && !expanded;
+  };
+  setExpanded(false);
+  mobileMenu.addEventListener('change', () => setExpanded(false));
+  toggle.addEventListener('click', () => setExpanded(toggle.getAttribute('aria-expanded') !== 'true'));
+  navigation.addEventListener('click', event => {
+    if (event.target.closest('a')) setExpanded(false);
   });
-  navigation.addEventListener('click', () => toggle.setAttribute('aria-expanded', 'false'));
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-      toggle.setAttribute('aria-expanded', 'false');
+      setExpanded(false);
       toggle.focus();
     }
   });

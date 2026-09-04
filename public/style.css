@@ -52,8 +52,8 @@ header { background: var(--green); }
 }
 .brand { flex-shrink: 0; }
 .brand img { width: 115px; height: 55px; object-fit: contain; }
-.nav-wrap nav { display: flex; gap: 8px; align-items: center; }
-.nav-wrap nav > a {
+.nav-links { display: flex; gap: 8px; align-items: center; }
+.nav-links > a {
   padding: 7px 18px;
   border: 1px solid var(--teal);
   border-radius: 30px;
@@ -62,9 +62,9 @@ header { background: var(--green); }
   text-decoration: none;
   text-align: center;
 }
-.nav-wrap nav > a[aria-current] { color: var(--pink-text); background: var(--cream); border-color: #d8a5b0; }
-.nav-wrap nav > a:hover, .nav-wrap nav > a:focus-visible { background: var(--cream); color: var(--pink-text); border-color: var(--pink); }
-.nav-wrap nav > a.button:hover, .nav-wrap nav > a.button:focus-visible { background: var(--pink); border-color: var(--pink); color: white; }
+.nav-links > a[aria-current] { color: var(--pink-text); background: var(--cream); border-color: #d8a5b0; }
+.nav-links > a:hover, .nav-links > a:focus-visible { background: var(--cream); color: var(--pink-text); border-color: var(--pink); }
+.nav-links > a.button:hover, .nav-links > a.button:focus-visible { background: var(--pink); border-color: var(--pink); color: white; }
 .button {
   display: inline-flex;
   justify-content: center;
@@ -140,6 +140,8 @@ header { background: var(--green); }
 .floral-heading::before { left: 0; }
 .floral-heading::after { right: 0; transform: scaleX(-1); }
 .floral-heading h1, .floral-heading p, .heading-rule { position: relative; z-index: 1; }
+.calendar-invite { position: relative; z-index: 1; }
+.floral-heading .calendar-invite p { margin: 16px auto; }
 .floral-heading h1 { color: var(--teal); font-weight: 700; margin-bottom: 24px; }
 .floral-heading p { margin: 25px auto 0; font: 18px/1.8 Questrial, sans-serif; }
 .heading-rule { display: block; width: 30px; height: 2px; background: var(--teal); margin: auto; }
@@ -276,7 +278,7 @@ a, button { transition: background-color var(--motion-duration) ease, border-col
 
 @media (max-width: 1100px) {
   .nav-wrap { margin: 0 24px; }
-  .nav-wrap nav > a { padding-inline: 12px; }
+  .nav-links > a { padding-inline: 12px; }
   .mission { grid-template-columns: 40% 1fr; }
   .intro-copy { padding: 50px; }
   .committee { gap: 40px; }
@@ -288,11 +290,14 @@ a, button { transition: background-color var(--motion-duration) ease, border-col
 @media (max-width: 760px) {
   h1 { font-size: 40px; }
   h2 { font-size: 32px; }
-  .nav-wrap { flex-wrap: wrap; padding: 10px 0; gap: 10px; min-height: 75px; }
-  .nav-wrap nav { width: 100%; flex-wrap: wrap; padding-bottom: 12px; }
-  .nav-wrap nav > a { flex: 1 1 auto; min-height: 44px; padding: 10px 15px; }
-  .js .menu-toggle { display: flex; gap: 12px; align-items: center; background: transparent; color: var(--ink); border: 1px solid var(--teal); border-radius: 25px; padding: 10px 18px; font: inherit; min-height: 44px; }
-  .js .menu-toggle[aria-expanded='false'] + nav { display: none; }
+  .nav-wrap { flex-wrap: wrap; padding: 10px 0; column-gap: 10px; row-gap: 0; min-height: 75px; }
+  .nav-wrap nav { width: 100%; }
+  .nav-links { flex-wrap: wrap; min-height: 0; overflow: hidden; }
+  .nav-links > a { flex: 1 1 auto; min-height: 44px; padding: 10px 15px; }
+  .js .menu-toggle { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: transparent; color: var(--ink); border: 0; padding: 6px; cursor: pointer; }
+  .menu-toggle:focus-visible { outline: 2px solid var(--pink-text); outline-offset: 3px; }
+  .js .nav-wrap nav { display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden; padding: 0; transition: grid-template-rows 240ms ease, opacity 180ms ease, padding 240ms ease, visibility 240ms; }
+  .js .menu-toggle[aria-expanded='true'] + nav { grid-template-rows: 1fr; opacity: 1; visibility: visible; padding: 10px 0 12px; }
   .page-home { --header-height: 75px; }
   .section { padding: 45px 0; }
   .section-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
@@ -339,7 +344,7 @@ a, button { transition: background-color var(--motion-duration) ease, border-col
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  a, button, .gallery-thumbs a { transition: none; }
+  a, button, .gallery-thumbs a, .js .nav-wrap nav { transition: none; }
   @view-transition { navigation: none; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none; }
 }

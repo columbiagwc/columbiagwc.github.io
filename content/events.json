@@ -14,5 +14,6 @@
   "past": [],
   "title": "Events",
   "intro": "Get involved in upcoming events and explore highlights from our community.",
-  "pageLinkLabel": "Explore events"
+  "pageLinkLabel": "Explore events",
+  "calendarDescription": "Add our Google Calendar to put upcoming events on your agenda!"
 }

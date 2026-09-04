@@ -42,7 +42,7 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     }
   }
   await validate(data);
-  for (const name of ['getInvolved','newsletter','teachingApplication','committeeApplication','studentApplication']) {
+  for (const name of ['getInvolved','newsletter','teachingApplication','committeeApplication','studentApplication','calendar']) {
     const config=buttons[name];
     if (!config) throw new Error(`buttons.${name} is required`);
     for (const key of ['label','href']) requireText(config[key], `buttons.${name}.${key}`);
@@ -121,7 +121,7 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">${favicon(base)}<meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} | GWC Columbia</title><meta name="description" content="${escape(site.description)}"><link rel="canonical" href="${escape(site.url + '/' + route)}"><link rel="stylesheet" href="${base}style.css?v=${cssVersion}"><script src="${base}site.js?v=${jsVersion}" defer></script></head><body class="page-${escape(route.replaceAll('/','') || 'home')}">
 <a class="skip" href="#main">Skip to content</a>
-<header><div class="nav-wrap"><a class="brand" href="${base}" aria-label="${escape(site.name)} — Home">${img(site.logo, site.name, '', true)}</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">☰</span></button><nav id="main-nav" aria-label="Main navigation">${site.navigation.map(n => `<a href="${escape(url(n.href))}"${tabAttributes(n.href)}${n.href===route ? ' aria-current="page"' : ''}>${escape(n.label)}</a>`).join('')}${button('getInvolved')}</nav></div></header>
+<header><div class="nav-wrap"><a class="brand" href="${base}" aria-label="${escape(site.name)} — Home">${img(site.logo, site.name, '', true)}</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation menu" hidden><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false"><path d="M4 8h24M4 16h24M4 24h24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button><nav id="main-nav" aria-label="Main navigation"><div class="nav-links">${site.navigation.map(n => `<a href="${escape(url(n.href))}"${tabAttributes(n.href)}${n.href===route ? ' aria-current="page"' : ''}>${escape(n.label)}</a>`).join('')}${button('getInvolved')}</div></nav></div></header>
 <main id="main">${body({img,link,url,button,tabAttributes})}</main>
 <footer><div class="footer-grid"><section><h2>${escape(site.footer.contactTitle)}</h2>${link(site.email, `mailto:${site.email}`)}<h2>${escape(site.footer.socialTitle)}</h2><div class="socials">${site.socials.map(s => `<a href="${escape(s.href)}"${tabAttributes(s.href)} aria-label="${escape(s.label)}">${img(s.image,s.label)}</a>`).join('')}</div></section><section class="newsletter"><h2>${escape(site.newsletter.title)}</h2><p>${escape(site.newsletter.description)}</p>${button('newsletter','button outline')}</section></div><div class="footer-bottom"><p class="copyright">© ${escape(site.footer.copyright)}</p><p class="updated">${escape(site.footer.updatedLabel)} <time datetime="${escape(commitDate)}">${escape(displayDate)}</time></p></div></footer></body></html>`;
     return html;
@@ -162,7 +162,7 @@ export async function build({ root = project, output = path.join(root, 'dist') }
       <nav class="committee-nav" aria-label="Committees"><div class="section">${committees.items.map(c=>`<a class="committee-link" href="${escape(url(c.href||'#'+c.id))}"${tabAttributes(c.href||'#'+c.id)}>${committeeIcon(c.icon)}<span>${escape(c.title)}</span></a>`).join('')}</div></nav>
       ${committees.items.filter(c=>c.id!=='teaching').map((c,i)=>`<section id="${escape(c.id)}" class="committee-band ${i%2?'alternate':''}"><div class="committee section"><div class="committee-copy"><h2>${escape(c.title)}</h2><p>${escape(c.description)}</p></div><div class="committee-gallery">${img(c.image,c.title+' committee','gallery-main')}<div class="gallery-thumbs"><a href="${escape(url(c.image))}" aria-current="true">${img(c.image,c.title+' committee photo')}</a>${c.art?`<a href="${escape(url(c.art))}">${img(c.art,c.title+' committee highlight')}</a>`:''}</div></div></div></section>`).join('')}`),
     'events/': render('events/',events.title,helpers=>`
-      <section class="floral-heading"><h1>${escape(events.title)}</h1><p>${escape(events.intro)}</p></section>
+      <section class="floral-heading"><h1>${escape(events.title)}</h1><p>${escape(events.intro)}</p><div class="calendar-invite"><p>${escape(events.calendarDescription)}</p>${helpers.button('calendar')}</div></section>
       <section id="upcoming-events" class="section event-section"><h2>${escape(events.upcomingTitle)}</h2>
         ${events.upcoming.length ? eventCards([...events.upcoming].sort((a,b)=>a.date.localeCompare(b.date)),helpers) : `<div class="empty-state"><h3>${escape(events.upcomingEmpty.title)}</h3><p>${escape(events.upcomingEmpty.description)}</p>${helpers.button('newsletter')}</div>`}
       </section>

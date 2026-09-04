@@ -16,7 +16,7 @@ Use double quotes in JSON, no trailing commas, and `\n\n` for paragraph breaks. 
 | --- | --- |
 | External button links/labels; close or reopen applications | `buttons.json` |
 | Board year, names, roles, bios, photos, display order | `board.json` |
-| Upcoming events and past-event photo galleries | `events.json` |
+| Upcoming events, past-event photo galleries, calendar invitation text | `events.json` |
 | Committee names, descriptions, icons, photos, destinations | `committees.json` |
 | Class dates, schedule, eligibility, courses, teaching text | `programs.json` |
 | Homepage banner, scroll label, mission text/artwork | `home.json` |
@@ -24,7 +24,7 @@ Use double quotes in JSON, no trailing commas, and `\n\n` for paragraph breaks. 
 
 ## Buttons and applications
 
-**Every external button URL is in `content/buttons.json`:** `getInvolved`, `newsletter`, `teachingApplication`, `committeeApplication`, and `studentApplication`.
+**Every external button URL is in `content/buttons.json`:** `getInvolved`, `newsletter`, `teachingApplication`, `committeeApplication`, `studentApplication`, and `calendar`.
 
 - Change `href` to update a link or `label` to change its text.
 - All external links automatically open in a new tab, including forms and social links. Email links launch the visitor’s mail app. No per-button setting is needed.

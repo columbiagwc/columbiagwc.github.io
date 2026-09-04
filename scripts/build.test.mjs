@@ -28,7 +28,8 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   assert.ok(home.indexOf('First event')<home.indexOf('Later event'));
   assert.ok(home.indexOf('id="upcoming-events"')<home.indexOf('class="mission'));
   assert.match(home,/href="#upcoming-events"/);
-  assert.match(home,/href="mailto:columbiagwc\+subscribe@googlegroups.com\?subject=Subscribe/);
+  assert.match(home,/href="https:\/\/docs.google.com\/forms\/d\/e\/1FAIpQLScYCgVK5HCoI1dmgLjPeniAA29OI0rCodhOnK7_-VqoZvYPIw\/viewform\?usp=sharing&amp;ouid=112523625594007399092"/);
+  assert.ok(!home.includes("columbiagwc+subscribe"));
   const past=await readFile(path.join(out,'past-events/index.html'),'utf8');
   assert.match(past,/Event attendees/);assert.match(past,/A caption &lt;with&gt; text/);
   const routes=['index.html','programs/index.html','committees/index.html','board/index.html','past-events/index.html','blank/index.html','blank-1/index.html','blank-2/index.html'];

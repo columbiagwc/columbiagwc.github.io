@@ -68,7 +68,7 @@ Each photo needs `src` and descriptive `alt` text. Captions are optional. Photos
 
 ## Newsletter
 
-The footer and upcoming-event buttons open a prefilled email to `columbiagwc+subscribe@googlegroups.com`, the Google-supported subscription command. The visitor clicks Send and follows Google’s confirmation instructions; the site does not silently send email or claim to have subscribed anyone. [Google documents this flow here](https://support.google.com/a/users/answer/10563581?hl=en). Group settings may require approval. Update `newsletter.href` and `newsletter.joinHelp` in `content/site.json` if this changes. The ordinary posting address remains `columbiagwc@googlegroups.com`; it is not the subscription endpoint.
+The footer and upcoming-event buttons open the newsletter Google Form. Update `newsletter.href` in `content/site.json` to change the signup destination. The form handles collecting responses; the website does not send subscription emails.
 
 ## Program and board dates
 

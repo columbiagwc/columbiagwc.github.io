@@ -11,13 +11,13 @@
   "teachingApplication": {
     "label": "Teaching application",
     "href": "https://docs.google.com/forms/d/e/1FAIpQLSd5ZDZsTVQQR9lXsgVn_7w5SoYH4xE3s17QYCmKuy6obZCpQg/viewform",
-    "disabled": false,
+    "disabled": true,
     "closedMessage": "The teaching application is currently closed. Join our newsletter for updates when we open applications!"
   },
   "committeeApplication": {
     "label": "Committee application",
     "href": "https://docs.google.com/forms/d/e/1FAIpQLSe-FvtCBr2JGiNj2GpGMSsVdG1HQKBLvOi_FOWV0-hWAgPC4Q/viewform",
-    "disabled": false,
+    "disabled": true,
     "closedMessage": "The committee application is currently closed. Join our newsletter for updates when we open applications!"
   },
   "studentApplication": {

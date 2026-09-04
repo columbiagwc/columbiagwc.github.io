@@ -48,7 +48,8 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
     const html=await readFile(path.join(out,route),'utf8');
     for(const [,raw] of html.matchAll(/(?:href|src)="([^"]+)"/g)){
       if (/^(https:|mailto:)/.test(raw))continue;
-      const [href,anchor]=raw.split('#');
+      const [pathWithQuery,anchor]=raw.split('#');
+      const href=pathWithQuery.split('?')[0];
       let destination=path.resolve(out,path.dirname(route),href||path.basename(route));
       if(href.endsWith('/'))destination=path.join(destination,'index.html');
       await access(destination);

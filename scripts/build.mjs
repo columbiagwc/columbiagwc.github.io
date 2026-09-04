@@ -1,5 +1,6 @@
 import { readFile, writeFile, mkdir, cp, rm, access } from 'node:fs/promises';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { committeeIcons, committeeIcon } from './icons.mjs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -97,6 +98,9 @@ export async function build({ root = project, output = path.join(root, 'dist') }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
   await writeFile(path.join(output, '.nojekyll'), '');
 
+  const assetVersion = async file => createHash('sha256').update(await readFile(path.join(root, 'public', file))).digest('hex').slice(0,12);
+  const cssVersion = await assetVersion('style.css');
+  const jsVersion = await assetVersion('site.js');
   function render(route, title, body) {
     const base = route ? '../' : './';
     const url = href => /^(https:|mailto:|#)/.test(href) ? href : base + href;
@@ -113,7 +117,7 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     };
     const img = (src, alt, cls = '', eager = false) => `<img src="${escape(base + src)}" alt="${escape(alt)}" class="${cls}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
     const html = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} | GWC Columbia</title><meta name="description" content="${escape(site.description)}"><link rel="canonical" href="${escape(site.url + '/' + route)}"><link rel="stylesheet" href="${base}style.css"><script src="${base}site.js" defer></script></head><body class="page-${escape(route.replaceAll('/','') || 'home')}">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} | GWC Columbia</title><meta name="description" content="${escape(site.description)}"><link rel="canonical" href="${escape(site.url + '/' + route)}"><link rel="stylesheet" href="${base}style.css?v=${cssVersion}"><script src="${base}site.js?v=${jsVersion}" defer></script></head><body class="page-${escape(route.replaceAll('/','') || 'home')}">
 <a class="skip" href="#main">Skip to content</a>
 <header><div class="nav-wrap"><a class="brand" href="${base}" aria-label="${escape(site.name)} — Home">${img(site.logo, site.name, '', true)}</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">☰</span></button><nav id="main-nav" aria-label="Main navigation">${site.navigation.map(n => `<a href="${escape(url(n.href))}"${tabAttributes(n.href)}${n.href===route ? ' aria-current="page"' : ''}>${escape(n.label)}</a>`).join('')}${button('getInvolved')}</nav></div></header>
 <main id="main">${body({img,link,url,button,tabAttributes})}</main>
@@ -190,7 +194,8 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     if (new Set(documentIds).size !== documentIds.length) throw new Error(`${route || '/'}: duplicate HTML IDs`);
     for (const [, reference] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
       if (/^(https:|mailto:)/.test(reference)) continue;
-      const [relative, anchor] = reference.split('#');
+      const [pathWithQuery, anchor] = reference.split('#');
+      const relative = pathWithQuery.split('?')[0];
       let target = relative ? path.resolve(path.dirname(file), relative) : file;
       if (relative.endsWith('/')) target = path.join(target, 'index.html');
       if (!target.startsWith(output + path.sep)) throw new Error(`Link outside site: ${reference}`);

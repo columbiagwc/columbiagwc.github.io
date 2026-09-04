@@ -30,3 +30,11 @@ for (const gallery of document.querySelectorAll('.committee-gallery')) {
     });
   });
 }
+
+// Keep the first screen filled when navigation wraps or the mobile viewport changes.
+if (document.querySelector('.home-hero')) {
+  const header = document.querySelector('header');
+  const sizeHero = () => document.body.style.setProperty('--header-height', `${header.getBoundingClientRect().height}px`);
+  sizeHero();
+  new ResizeObserver(sizeHero).observe(header);
+}

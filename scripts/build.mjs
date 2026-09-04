@@ -45,7 +45,10 @@ export async function build({ root = project, output = path.join(root, 'dist') }
   for (const name of ['getInvolved','newsletter','teachingApplication','committeeApplication','studentApplication','calendar']) {
     const config=buttons[name];
     if (!config) throw new Error(`buttons.${name} is required`);
-    for (const key of ['label','href']) requireText(config[key], `buttons.${name}.${key}`);
+    // getInvolved always links to the same destination as the newsletter button (see button() below),
+    // so it doesn't declare its own href.
+    const requiredKeys = name === 'getInvolved' ? ['label'] : ['label','href'];
+    for (const key of requiredKeys) requireText(config[key], `buttons.${name}.${key}`);
     for (const key of ['disabled','newTab']) if (config[key] !== undefined && typeof config[key] !== 'boolean') throw new Error(`buttons.${name}.${key} must be true or false`);
     if (config.disabled) requireText(config.closedMessage, `buttons.${name}.closedMessage`);
   }
@@ -115,7 +118,10 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     const button = (name, cls = 'button') => {
       const config = buttons[name];
       if (config.disabled) return `<aside class="application-closed"><p>${escape(config.closedMessage)}</p>${link(buttons.newsletter.label,buttons.newsletter.href,'button',buttons.newsletter.newTab)}</aside>`;
-      return link(config.label,config.href,cls,config.newTab);
+      // getInvolved keeps its own label but always points wherever the newsletter button points,
+      // so the two never drift apart.
+      const destination = name === 'getInvolved' ? buttons.newsletter : config;
+      return link(config.label,destination.href,cls,destination.newTab);
     };
     const img = (src, alt, cls = '', eager = false) => `<img src="${escape(base + src)}" alt="${escape(alt)}" class="${cls}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
     const html = `<!doctype html>

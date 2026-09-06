@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const escapeXml = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
 const paragraphs = text => text.split('\n\n').map(p => `<p>${escape(p)}</p>`).join('');
 
 export async function build({ root = project, output = path.join(root, 'dist') } = {}) {
@@ -55,6 +56,11 @@ export async function build({ root = project, output = path.join(root, 'dist') }
   for (const member of board.members) if (member.visible !== undefined && typeof member.visible !== 'boolean') throw new Error('board member visible must be true or false');
   for (const [name, page] of Object.entries({home, programs, committees, board})) requireText(page.title, `${name}.title`);
   requireList(site.navigation, 'site.navigation');
+  requireList(site.alternateNames, 'site.alternateNames');
+  for (const page of ['home','programs','committees','board','events']) {
+    requireText(site.seo?.[page]?.title, `site.seo.${page}.title`);
+    requireText(site.seo?.[page]?.description, `site.seo.${page}.description`);
+  }
   requireList(home.missions, 'home.missions');
   requireList(programs.courses, 'programs.courses');
   requireList(committees.items, 'committees.items');
@@ -108,6 +114,46 @@ export async function build({ root = project, output = path.join(root, 'dist') }
   const favicon = base => `<link rel="icon" type="image/png" href="${base}${escape(site.favicon)}?v=${faviconVersion}">`;
   function render(route, title, body) {
     const base = route ? '../' : './';
+    const pageKey = route ? route.replace('/','') : 'home';
+    const pageSeo = site.seo[pageKey];
+    const canonicalUrl = site.url + '/' + route;
+    const logoUrl = site.url + '/' + site.logo;
+    const sameAs = [...site.socials, ...site.profileSocials].map(profile => profile.href);
+    const structuredData = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'Organization',
+          '@id': `${site.url}/#organization`,
+          name: site.name,
+          alternateName: site.alternateNames,
+          url: `${site.url}/`,
+          logo: logoUrl,
+          email: site.email,
+          description: site.description,
+          sameAs
+        },
+        {
+          '@type': 'WebSite',
+          '@id': `${site.url}/#website`,
+          url: `${site.url}/`,
+          name: site.name,
+          alternateName: site.alternateNames,
+          publisher: {'@id': `${site.url}/#organization`},
+          inLanguage: 'en-US'
+        },
+        {
+          '@type': 'WebPage',
+          '@id': `${canonicalUrl}#webpage`,
+          url: canonicalUrl,
+          name: pageSeo.title,
+          description: pageSeo.description,
+          isPartOf: {'@id': `${site.url}/#website`},
+          about: {'@id': `${site.url}/#organization`},
+          inLanguage: 'en-US'
+        }
+      ]
+    }).replaceAll('<', '\\u003c');
     const url = href => /^(https:|mailto:|#)/.test(href) ? href : base + href;
     const opensNewTab = (href, requested = false) => requested || /^(https:|mailto:)/.test(href);
     const tabAttributes = href => opensNewTab(href) ? ' target="_blank" rel="noopener noreferrer"' : '';
@@ -125,7 +171,7 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     };
     const img = (src, alt, cls = '', eager = false) => `<img src="${escape(base + src)}" alt="${escape(alt)}" class="${cls}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
     const html = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8">${favicon(base)}<meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(title)} | GWC Columbia</title><meta name="description" content="${escape(site.description)}"><link rel="canonical" href="${escape(site.url + '/' + route)}"><link rel="stylesheet" href="${base}style.css?v=${cssVersion}"><script src="${base}site.js?v=${jsVersion}" defer></script></head><body class="page-${escape(route.replaceAll('/','') || 'home')}">
+<html lang="en"><head><meta charset="utf-8">${favicon(base)}<meta name="viewport" content="width=device-width, initial-scale=1"><title>${escape(pageSeo.title)}</title><meta name="description" content="${escape(pageSeo.description)}"><meta name="robots" content="index, follow"><link rel="canonical" href="${escape(canonicalUrl)}"><meta property="og:type" content="website"><meta property="og:site_name" content="${escape(site.name)}"><meta property="og:title" content="${escape(pageSeo.title)}"><meta property="og:description" content="${escape(pageSeo.description)}"><meta property="og:url" content="${escape(canonicalUrl)}"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="${escape(pageSeo.title)}"><meta name="twitter:description" content="${escape(pageSeo.description)}"><script type="application/ld+json">${structuredData}</script><link rel="stylesheet" href="${base}style.css?v=${cssVersion}"><script src="${base}site.js?v=${jsVersion}" defer></script></head><body class="page-${escape(route.replaceAll('/','') || 'home')}">
 <a class="skip" href="#main">Skip to content</a>
 <header><div class="nav-wrap"><a class="brand" href="${base}" aria-label="${escape(site.name)} — Home">${img(site.logo, site.name, '', true)}</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation menu" hidden><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false"><path d="M4 8h24M4 16h24M4 24h24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button><nav id="main-nav" aria-label="Main navigation"><div class="nav-links">${site.navigation.map(n => `<a href="${escape(url(n.href))}"${tabAttributes(n.href)}${n.href===route ? ' aria-current="page"' : ''}>${escape(n.label)}</a>`).join('')}${button('getInvolved')}</div></nav></div></header>
 <main id="main">${body({img,link,url,button,tabAttributes})}</main>
@@ -186,6 +232,11 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     await mkdir(path.join(output,route),{recursive:true});
     await writeFile(path.join(output,route,'index.html'),html);
   }
+  const indexedRoutes = Object.keys(pages);
+  const lastModified = new Date(commitDate).toISOString().slice(0,10);
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexedRoutes.map(route => `  <url><loc>${escapeXml(site.url + '/' + route)}</loc><lastmod>${lastModified}</lastmod></url>`).join('\n')}\n</urlset>\n`;
+  await writeFile(path.join(output,'sitemap.xml'), sitemap);
+  await writeFile(path.join(output,'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`);
   const aliases = {'blank':'programs/','blank-1':'committees/','blank-2':'board/','past-events':'events/'};
   for(const [alias,target] of Object.entries(aliases)) {
     await mkdir(path.join(output,alias),{recursive:true});

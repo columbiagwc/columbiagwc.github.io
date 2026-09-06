@@ -1,10 +1,38 @@
 {
-  "name": "Girls Who Code @ Columbia",
-  "description": "A tech and mentorship community empowering NYC high school girls and supporting Columbia students.",
+  "name": "Girls Who Code at Columbia University",
+  "alternateNames": [
+    "GWC Columbia",
+    "Columbia Girls Who Code",
+    "Columbia University Girls Who Code",
+    "GWC at Columbia University"
+  ],
+  "description": "Girls Who Code at Columbia University offers free coding classes and mentorship for NYC high school students and a tech community for Columbia and Barnard students.",
   "url": "https://columbiagwc.github.io",
   "logo": "assets/logo.png",
   "favicon": "assets/gwccircle.png",
   "email": "columbiagwc@gmail.com",
+  "seo": {
+    "home": {
+      "title": "Girls Who Code at Columbia University",
+      "description": "Girls Who Code at Columbia University offers free coding classes and mentorship for NYC high school students, led by Columbia and Barnard students."
+    },
+    "programs": {
+      "title": "Free High School Coding Programs | GWC Columbia",
+      "description": "Explore free Girls Who Code classes in Python and web development for female and nonbinary high school students in New York City."
+    },
+    "committees": {
+      "title": "Student Committees | Girls Who Code Columbia",
+      "description": "Join a Girls Who Code Columbia committee in teaching, curriculum, outreach, finance, engagement, media, or web development."
+    },
+    "board": {
+      "title": "Executive Board | Girls Who Code Columbia",
+      "description": "Meet the Columbia University students leading Girls Who Code at Columbia and its coding education, mentorship, and community programs."
+    },
+    "events": {
+      "title": "Events | Girls Who Code Columbia",
+      "description": "Find upcoming Girls Who Code events at Columbia University and highlights from our coding, mentorship, and community programs."
+    }
+  },
   "navigation": [
     {
       "label": "High School Programs",

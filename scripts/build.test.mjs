@@ -23,6 +23,12 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   });
   const out=await build({root});
   const home=await readFile(path.join(out,'index.html'),'utf8');
+  assert.match(home, /<title>Girls Who Code at Columbia University<\/title>/);
+  assert.match(home, /<meta name="description" content="Girls Who Code at Columbia University offers free coding classes and mentorship/);
+  assert.match(home, /<meta name="robots" content="index, follow">/);
+  assert.match(home, /<script type="application\/ld\+json">/);
+  assert.match(home, /"@type":"Organization"/);
+  assert.match(home, /"alternateName":\["GWC Columbia","Columbia Girls Who Code","Columbia University Girls Who Code","GWC at Columbia University"\]/);
   assert.match(home,/A PR changed this &lt;heading&gt;/);
   assert.match(home,/Last updated <time datetime="2026-09-03T12:00:00-04:00">September 3, 2026/);
   assert.ok(home.indexOf('First event')<home.indexOf('Later event'));
@@ -38,7 +44,16 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   }
   assert.ok(!home.split('<footer>')[1].includes('linkedin.com'));
   const programsPage=await readFile(path.join(out,'programs/index.html'),'utf8');
+  assert.match(programsPage, /<title>Free High School Coding Programs \| GWC Columbia<\/title>/);
+  assert.match(programsPage, /<link rel="canonical" href="https:\/\/columbiagwc.github.io\/programs\/">/);
   assert.ok(!programsPage.includes('Ask about upcoming classes'));
+
+  const robots=await readFile(path.join(out,'robots.txt'),'utf8');
+  assert.equal(robots, 'User-agent: *\nAllow: /\n\nSitemap: https://columbiagwc.github.io/sitemap.xml\n');
+  const sitemap=await readFile(path.join(out,'sitemap.xml'),'utf8');
+  assert.match(sitemap, /<loc>https:\/\/columbiagwc.github.io\/<\/loc>/);
+  for (const route of ['programs/','committees/','board/','events/']) assert.match(sitemap, new RegExp(`<loc>https://columbiagwc\\.github\\.io/${route}</loc>`));
+  assert.ok(!sitemap.includes('blank/') && !sitemap.includes('past-events/'));
 
   const past=await readFile(path.join(out,'events/index.html'),'utf8');
   assert.ok(past.indexOf('First event') < past.indexOf('A past event'));

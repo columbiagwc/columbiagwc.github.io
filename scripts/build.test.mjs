@@ -26,6 +26,7 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   assert.match(home, /<title>Girls Who Code at Columbia University<\/title>/);
   assert.match(home, /<meta name="description" content="Girls Who Code at Columbia University offers free coding classes and mentorship/);
   assert.match(home, /<meta name="robots" content="index, follow">/);
+  assert.match(home, /<meta name="google-site-verification" content="vN0rTdqBOGKiw3LEJOYRBjkwZovIyk8pP88wEgVZ8tE">/);
   assert.match(home, /<script type="application\/ld\+json">/);
   assert.match(home, /"@type":"Organization"/);
   assert.match(home, /"alternateName":\["GWC Columbia","Columbia Girls Who Code","Columbia University Girls Who Code","GWC at Columbia University"\]/);

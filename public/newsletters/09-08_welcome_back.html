@@ -12,6 +12,9 @@
     img { border: 0; display: block; height: auto; }
     a { color: #d357fe; }
     h1, h2, h3, p { overflow-wrap: break-word; word-wrap: break-word; }
+    .copy-tools { position: sticky; top: 0; z-index: 10; padding: 12px; background: #eef8f7; border-bottom: 1px solid #abe3de; font-family: Helvetica, Arial, sans-serif; text-align: center; }
+    .copy-button { padding: 10px 18px; border: 2px solid #2e6860; border-radius: 999px; background: #0ca195; color: #ffffff; font: 700 14px Helvetica, Arial, sans-serif; cursor: pointer; }
+    .copy-status { display: inline-block; min-width: 72px; margin-left: 10px; color: #25366f; font: 700 14px Helvetica, Arial, sans-serif; }
     @media only screen and (max-width: 680px) {
       .email-shell { width: 100% !important; }
       .content-pad { padding-left: 24px !important; padding-right: 24px !important; }
@@ -21,6 +24,10 @@
   </style>
 </head>
 <body>
+  <div class="copy-tools" data-copy-exclude="true">
+    <button class="copy-button" id="copy-newsletter" type="button">Copy newsletter for email</button>
+    <span class="copy-status" id="copy-status" role="status" aria-live="polite"></span>
+  </div>
   <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
     Happy first day of classes! Committee applications, Activities Day, and our September 17 interest meeting.
   </div>
@@ -28,7 +35,7 @@
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;background:#ffffff;">
     <tr>
       <td align="center">
-        <table role="presentation" class="email-shell" width="100%" cellpadding="0" cellspacing="0" style="width:100%;max-width:660px;table-layout:fixed;background:#ffffff;">
+        <table id="email-content" role="presentation" class="email-shell" width="100%" cellpadding="0" cellspacing="0" style="width:100%;max-width:660px;table-layout:fixed;margin:0 auto;background:#ffffff;">
           <tr>
             <td>
               <img src="https://columbiagwc.github.io/assets/newsletter-fall-2026-header.png?v=1075458" width="100%" alt="Columbia Girls Who Code — hip, hip, array!" style="width:100%;max-width:660px;">
@@ -177,5 +184,50 @@
       </td>
     </tr>
   </table>
+  <script>
+    (() => {
+      const button = document.getElementById('copy-newsletter');
+      const status = document.getElementById('copy-status');
+      const newsletter = document.getElementById('email-content');
+
+      async function copyNewsletter() {
+        const clone = newsletter.cloneNode(true);
+        clone.removeAttribute('id');
+        clone.removeAttribute('class');
+        clone.style.width = '100%';
+        clone.style.maxWidth = '660px';
+        clone.style.tableLayout = 'fixed';
+        clone.style.margin = '0 auto';
+        const html = clone.outerHTML;
+        const text = newsletter.innerText;
+
+        try {
+          if (navigator.clipboard && window.ClipboardItem) {
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                'text/html': new Blob([html], { type: 'text/html' }),
+                'text/plain': new Blob([text], { type: 'text/plain' })
+              })
+            ]);
+          } else {
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNode(newsletter);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            document.execCommand('copy');
+            selection.removeAllRanges();
+          }
+          status.textContent = 'Copied!';
+        } catch (error) {
+          status.textContent = 'Select the newsletter below and copy it.';
+        }
+
+        window.setTimeout(() => { status.textContent = ''; }, 4000);
+      }
+
+      button.addEventListener('click', copyNewsletter);
+    })();
+  </script>
 </body>
 </html>

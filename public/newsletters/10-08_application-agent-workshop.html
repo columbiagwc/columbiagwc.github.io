@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+  <title>Build an Application Agent with OpenAI | Columbia GWC</title>
+  <style>
+    body { width: 100% !important; margin: 0; padding: 0; background: #ffffff; color: #000000; }
+    table { border-collapse: collapse; border-spacing: 0; }
+    td { min-width: 0; }
+    img { border: 0; display: block; height: auto; }
+    a { color: #d357fe; }
+    h1, p { overflow-wrap: break-word; word-wrap: break-word; }
+    .copy-tools { position: sticky; top: 0; z-index: 10; padding: 12px; background: #eef8f7; border-bottom: 1px solid #abe3de; font-family: Helvetica, Arial, sans-serif; text-align: center; }
+    .copy-button { padding: 10px 18px; border: 2px solid #2e6860; border-radius: 999px; background: #0ca195; color: #ffffff; font: 700 14px Helvetica, Arial, sans-serif; cursor: pointer; }
+    .copy-status { display: inline-block; min-width: 72px; margin-left: 10px; color: #25366f; font: 700 14px Helvetica, Arial, sans-serif; }
+    @media only screen and (max-width: 680px) {
+      .email-shell { width: 100% !important; }
+      .content-pad { padding-left: 24px !important; padding-right: 24px !important; }
+      .event-wrap { padding-left: 16px !important; padding-right: 16px !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="copy-tools" data-copy-exclude="true">
+    <button class="copy-button" id="copy-newsletter" type="button">Copy newsletter for email</button>
+    <span class="copy-status" id="copy-status" role="status" aria-live="polite"></span>
+  </div>
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
+    Build an application agent with ChatGPT Work on October 15. Bring your laptop and application materials; food is provided.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;background:#ffffff;">
+    <tr>
+      <td align="center">
+        <table id="email-content" role="presentation" class="email-shell" width="100%" cellpadding="0" cellspacing="0" style="width:100%;max-width:660px;table-layout:fixed;margin:0 auto;background:#ffffff;">
+          <tr>
+            <td>
+              <img src="https://columbiagwc.github.io/assets/newsletter-fall-2026-header.png?v=1075458" width="660" alt="Columbia Girls Who Code: hip, hip, array!" style="width:100%;max-width:660px;">
+            </td>
+          </tr>
+
+          <tr>
+            <td class="content-pad" style="padding:28px 24px 20px;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;text-align:center;">
+              <h1 style="margin:0;color:#25366f;font-family:Courier,'Courier New',monospace;font-size:26px;line-height:1.4;">Build an Application Agent</h1>
+              <p style="margin:6px 0 0;font-family:Courier,'Courier New',monospace;"><strong>OpenAI Student Collective × Columbia GWC</strong></p>
+              <p style="margin:18px 0 0;">It’s application season! Have an internship, fellowship, or another opportunity in mind? Join us for a hands-on workshop to learn how to work on your application materials with ChatGPT Work.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="event-wrap" style="padding:8px 24px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;background:#abe3de;">
+                <tr>
+                  <td style="padding:20px 24px;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;">
+                    <p style="margin:0;">You’ll build an application agent, try it out with your resume, cover letter, or portfolio, and refine the draft so it reflects your experience and sounds like you.</p>
+                    <p style="margin:16px 0 0;">Bring your laptop, an opportunity you’re interested in, and whatever materials you have so far. You’ll leave with a first draft and a process you can use for your next application!</p>
+                    <p style="margin:16px 0 0;"><strong>When:</strong> Thursday, October 15, 2026 · 7–8 p.m.<br><strong>Where:</strong> Lerner Satow (5th Floor Lerner)<br><strong>Food:</strong> Chipotle provided</p>
+                    <p style="margin:20px 0 0;text-align:center;"><a href="https://luma.com/crr71xhf" target="_blank" rel="noreferrer" style="display:inline-block;padding:14px 26px;border:2px solid #2e6860;border-radius:50px;background:#0ca195;color:#ffffff;font-family:Courier,'Courier New',monospace;font-size:16px;font-weight:bold;text-decoration:none;">RSVP on Luma →</a></p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="event-wrap" style="padding:16px 24px 8px;">
+              <a href="https://luma.com/crr71xhf" target="_blank" rel="noreferrer">
+                <img src="https://columbiagwc.github.io/assets/newsletter-openai-application-agent-workshop-2026.jpeg" width="612" alt="OpenAI × GWC workshop flyer: build an application agent with ChatGPT Work; October 15, 7–8 p.m. at Lerner Satow; free Chipotle; RSVP on Luma" style="width:100%;max-width:612px;">
+              </a>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="content-pad" style="padding:20px 24px 24px;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;">
+              <p style="margin:0;">We hope to see you there!</p>
+              <p style="margin:16px 0 0;">See you soon,<br><strong>Columbia Girls Who Code</strong></p>
+              <p style="margin:16px 0 0;">Questions? Reach out at <a href="mailto:columbiagwc@gmail.com">columbiagwc@gmail.com</a>.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:4px 24px 12px;"><div style="height:2px;background:#abe3de;line-height:2px;font-size:1px;">&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:16px 24px 8px;">
+              <img src="https://columbiagwc.github.io/assets/newsletter-footer-logo.png?v=20260908" width="183" alt="Columbia Girls Who Code" style="width:183px;max-width:100%;">
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 24px 28px;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.5;text-align:center;">
+              <p style="margin:0;"><em>Copyright © 2026 Columbia Girls Who Code.</em></p>
+              <p style="margin:12px 0 0;">To unsubscribe, email<br><a href="mailto:columbiagwc+unsubscribe@googlegroups.com">columbiagwc+unsubscribe@googlegroups.com</a><br>from the address where you receive this newsletter.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <script>
+    (() => {
+      const button = document.getElementById('copy-newsletter');
+      const status = document.getElementById('copy-status');
+      const newsletter = document.getElementById('email-content');
+
+      async function copyNewsletter() {
+        const clone = newsletter.cloneNode(true);
+        clone.removeAttribute('id');
+        clone.removeAttribute('class');
+        clone.style.width = '100%';
+        clone.style.maxWidth = '660px';
+        clone.style.tableLayout = 'fixed';
+        clone.style.margin = '0 auto';
+        const html = clone.outerHTML;
+        const text = newsletter.innerText;
+
+        try {
+          if (navigator.clipboard && window.ClipboardItem) {
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                'text/html': new Blob([html], { type: 'text/html' }),
+                'text/plain': new Blob([text], { type: 'text/plain' })
+              })
+            ]);
+          } else {
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNode(newsletter);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            if (!document.execCommand('copy')) throw new Error('Copy was not available');
+            selection.removeAllRanges();
+          }
+          status.textContent = 'Copied!';
+        } catch (error) {
+          status.textContent = 'Select the newsletter below and copy it.';
+        }
+
+        window.setTimeout(() => { status.textContent = ''; }, 4000);
+      }
+
+      button.addEventListener('click', copyNewsletter);
+    })();
+  </script>
+</body>
+</html>

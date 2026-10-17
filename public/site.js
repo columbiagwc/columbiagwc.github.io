@@ -38,6 +38,35 @@ for (const gallery of document.querySelectorAll('.committee-gallery')) {
   });
 }
 
+// Board year tabs: #board-2025 in the URL opens that year.
+const boardTabs = [...document.querySelectorAll('.board-tab')];
+if (boardTabs.length) {
+  const select = tab => {
+    const year = tab.getAttribute('aria-controls').replace('board-', '');
+    for (const item of boardTabs) {
+      const selected = item === tab;
+      item.setAttribute('aria-selected', String(selected));
+      item.tabIndex = selected ? 0 : -1;
+    }
+    document.querySelectorAll('[data-board-year]').forEach(element => { element.hidden = element.dataset.boardYear !== year; });
+  };
+  const fromHash = boardTabs.find(tab => '#' + tab.getAttribute('aria-controls') === location.hash);
+  if (fromHash) select(fromHash);
+  boardTabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      select(tab);
+      history.replaceState(null, '', i ? '#' + tab.getAttribute('aria-controls') : location.pathname);
+    });
+    tab.addEventListener('keydown', event => {
+      const step = {ArrowRight: 1, ArrowLeft: -1}[event.key];
+      if (!step) return;
+      event.preventDefault();
+      boardTabs[(i + step + boardTabs.length) % boardTabs.length].click();
+      boardTabs.find(item => item.getAttribute('aria-selected') === 'true').focus();
+    });
+  });
+}
+
 // Keep the first screen filled when navigation wraps or the mobile viewport changes.
 if (document.querySelector('.home-hero')) {
   const header = document.querySelector('header');

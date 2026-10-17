@@ -53,7 +53,22 @@ export async function build({ root = project, output = path.join(root, 'dist') }
     for (const key of ['disabled','newTab']) if (config[key] !== undefined && typeof config[key] !== 'boolean') throw new Error(`buttons.${name}.${key} must be true or false`);
     if (config.disabled) requireText(config.closedMessage, `buttons.${name}.closedMessage`);
   }
-  for (const member of board.members) if (member.visible !== undefined && typeof member.visible !== 'boolean') throw new Error('board member visible must be true or false');
+  requireList(board.boards, 'board.boards');
+  const boardYears = new Set();
+  for (const [i, year] of board.boards.entries()) {
+    requireText(year.year, `board.boards[${i}].year`);
+    if (!/^\d{4}$/.test(year.year) || boardYears.has(year.year)) throw new Error('Board years must be unique four-digit years');
+    boardYears.add(year.year);
+    requireText(year.subtitle, `board.boards[${i}].subtitle`);
+    requireList(year.members, `board.boards[${i}].members`);
+    for (const [j, member] of year.members.entries()) {
+      for (const key of ['name','role','bio','image']) requireText(member[key], `board.boards[${i}].members[${j}].${key}`);
+      if (member.visible !== undefined && typeof member.visible !== 'boolean') throw new Error('board member visible must be true or false');
+      if (member.linkedin !== undefined && !/^https:\/\/(www\.)?linkedin\.com\/\S+$/.test(member.linkedin)) throw new Error(`board.boards[${i}].members[${j}].linkedin: use an https://www.linkedin.com/ link`);
+    }
+  }
+  const linkedinIcon = site.profileSocials.find(s => s.label === 'LinkedIn');
+  if (!linkedinIcon) throw new Error('site.profileSocials needs a LinkedIn entry for board member links');
   for (const [name, page] of Object.entries({home, programs, committees, board})) requireText(page.title, `${name}.title`);
   requireList(site.navigation, 'site.navigation');
   requireText(site.googleSiteVerification, 'site.googleSiteVerification');
@@ -65,8 +80,6 @@ export async function build({ root = project, output = path.join(root, 'dist') }
   requireList(home.missions, 'home.missions');
   requireList(programs.courses, 'programs.courses');
   requireList(committees.items, 'committees.items');
-  requireList(board.members, 'board.members');
-  for (const [i, member] of board.members.entries()) for (const key of ['name','role','bio','image']) requireText(member[key], `board.members[${i}].${key}`);
   const ids = new Set();
   for (const item of committees.items) {
     if (!Object.hasOwn(committeeIcons,item.icon)) throw new Error(`Unknown committee icon: ${item.icon}`);
@@ -222,12 +235,24 @@ export async function build({ root = project, output = path.join(root, 'dist') }
       <section id="past-events" class="section event-section"><h2>${escape(events.pastTitle)}</h2><p>${escape(events.pastIntro)}</p>
         ${events.past.length ? eventCards([...events.past].sort((a,b)=>b.date.localeCompare(a.date)),helpers) : `<div class="empty-state"><h3>${escape(events.pastEmpty.title)}</h3><p>${escape(events.pastEmpty.description)}</p></div>`}
       </section>`),
-    'board/': render('board/',board.title,({img,tabAttributes})=>`
-      <section class="floral-heading"><h1>${escape(board.title)}</h1><span class="heading-rule" aria-hidden="true"></span><p>${escape(board.subtitle)}</p></section>
-      <section class="board-grid section" aria-label="Board members">${board.members.filter(m=>m.visible!==false).map(m=>`
+    'board/': render('board/',board.title,({img,tabAttributes})=>{
+      // Members with their own `linkedin` link to it; others keep the organization's profile links.
+      const memberLinks = m => m.linkedin
+        ? `<a href="${escape(m.linkedin)}"${tabAttributes(m.linkedin)} aria-label="${escape(m.name+' on LinkedIn')}">${img(linkedinIcon.image,linkedinIcon.label)}</a>`
+        : site.profileSocials.map(s=>`<a href="${escape(s.href)}"${tabAttributes(s.href)} aria-label="${escape(site.name+' on '+s.label)}">${img(s.image,s.label)}</a>`).join('');
+      const memberCard = m => `
         <article class="member">${img(m.image,m.name,'portrait')}<div class="member-copy"><p class="member-role">${escape(m.role)}</p><h2>${escape(m.name)}</h2><div class="member-bio">${paragraphs(m.bio)}</div>
-        <div class="member-links">${site.profileSocials.map(s=>`<a href="${escape(s.href)}"${tabAttributes(s.href)} aria-label="${escape(site.name+' on '+s.label)}">${img(s.image,s.label)}</a>`).join('')}</div></div></article>`).join('')}
-      </section>`)
+        <div class="member-links">${memberLinks(m)}</div></div></article>`;
+      // The first year is selected; site.js switches tabs. Without JavaScript, every year is shown.
+      const hidden = i => i ? ' hidden' : '';
+      return `
+      <noscript><style>.board-tabs { display: none; } [data-board-year][hidden] { display: grid !important; } p[data-board-year][hidden] { display: block !important; }</style></noscript>
+      <section class="floral-heading"><h1>${escape(board.title)}</h1><span class="heading-rule" aria-hidden="true"></span>${board.boards.map((b,i)=>`<p data-board-year="${escape(b.year)}"${hidden(i)}>${escape(b.subtitle)}</p>`).join('')}
+        <div class="board-tabs" role="tablist" aria-label="Board year">${board.boards.map((b,i)=>`<button class="board-tab" type="button" role="tab" id="board-tab-${escape(b.year)}" aria-controls="board-${escape(b.year)}" aria-selected="${!i}"${i ? ' tabindex="-1"' : ''}>${escape(b.year)}</button>`).join('')}</div>
+      </section>
+      ${board.boards.map((b,i)=>`<section id="board-${escape(b.year)}" class="board-grid section" role="tabpanel" aria-labelledby="board-tab-${escape(b.year)}" data-board-year="${escape(b.year)}"${hidden(i)}>${b.members.filter(m=>m.visible!==false).map(memberCard).join('')}
+      </section>`).join('')}`;
+    })
   };
   for (const [route,html] of Object.entries(pages)) {
     await mkdir(path.join(output,route),{recursive:true});

@@ -19,7 +19,7 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   await edit('home',d=>{d.heading='A PR changed this <heading>';});
   await edit('events',d=>{
     d.upcoming=[{id:'later',title:'Later event',date:'2026-10-20',description:'Later'}, {id:'first',title:'First event',date:'2026-10-01',description:'Meet & code',location:'Campus',link:{label:'Register',href:'https://example.com/register'}}];
-    d.past=[{id:'gallery',title:'A past event',date:'2025-10-01',description:'Community memories',photos:[{src:board.members[0].image,alt:'Event attendees',caption:'A caption <with> text'}]}];
+    d.past=[{id:'gallery',title:'A past event',date:'2025-10-01',description:'Community memories',photos:[{src:board.boards[0].members[0].image,alt:'Event attendees',caption:'A caption <with> text'}]}];
   });
   const out=await build({root});
   const home=await readFile(path.join(out,'index.html'),'utf8');
@@ -44,6 +44,14 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
     assert.ok(member.includes('linkedin.com'));
   }
   assert.ok(!home.split('<footer>')[1].includes('linkedin.com'));
+  // The first year is the default tab; personal LinkedIn links only where a member has one.
+  const [firstYear, secondYear] = board.boards;
+  assert.match(boardPage, new RegExp(`id="board-tab-${firstYear.year}" aria-controls="board-${firstYear.year}" aria-selected="true"`));
+  assert.match(boardPage, new RegExp(`<section id="board-${secondYear.year}" [^>]*hidden>`));
+  const panel = year => boardPage.split(`<section id="board-${year}"`)[1].split('</section>')[0];
+  for (const member of firstYear.members.filter(m => m.linkedin)) assert.ok(panel(firstYear.year).includes(`href="${member.linkedin}"`));
+  assert.ok(!panel(secondYear.year).includes('linkedin.com/in/'));
+  assert.ok(panel(secondYear.year).includes('linkedin.com/company/girls-who-code-at-columbia-university/'));
   const programsPage=await readFile(path.join(out,'programs/index.html'),'utf8');
   assert.match(programsPage, /<title>Free High School Coding Programs \| GWC Columbia<\/title>/);
   assert.match(programsPage, /<link rel="canonical" href="https:\/\/columbiagwc.github.io\/programs\/">/);
@@ -81,7 +89,7 @@ test('content-driven pages, gallery, links, dates, and validation', async t => {
   // Closing applications must remove their destinations and show the shared newsletter form.
   const buttons=JSON.parse(await readFile(path.join(root,'content/buttons.json'),'utf8'));
   await edit('buttons',d=>{d.teachingApplication.disabled=true;d.committeeApplication.disabled=true;d.newsletter.href='https://example.com/replacement-newsletter';});
-  await edit('board',d=>{d.members[0].visible=false;});
+  await edit('board',d=>{for (const year of d.boards) for (const member of year.members) if (member.name==='Ann Lee') member.visible=false;});
   await build({root});
   const closedPrograms=await readFile(path.join(out,'programs/index.html'),'utf8');
   const closedCommittees=await readFile(path.join(out,'committees/index.html'),'utf8');

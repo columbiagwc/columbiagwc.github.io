@@ -15,7 +15,7 @@ Use double quotes in JSON, no trailing commas, and `\n\n` for paragraph breaks. 
 | Change | File in `content/` |
 | --- | --- |
 | External button links/labels; close or reopen applications | `buttons.json` |
-| Board year, names, roles, bios, photos, display order | `board.json` |
+| Board years (tabs), names, roles, bios, photos, LinkedIn links, display order | `board.json` |
 | Upcoming events, past-event photo galleries, calendar invitation text | `events.json` |
 | Committee names, descriptions, icons, photos, destinations | `committees.json` |
 | Class dates, schedule, eligibility, courses, teaching text | `programs.json` |
@@ -44,18 +44,29 @@ Changing `newsletter.href` updates **all** newsletter buttons, including closed-
 
 ## Board members
 
-In `board.json`, update `subtitle` for the board year. Each object in `members` has:
+`board.json` → `boards` holds one object per year, shown as year tabs on the E-Board page. The **first** year is the tab selected by default, so add a new year at the top:
+
+```json
+{
+  "year": "2027",
+  "subtitle": "Columbia University 2027 E-board",
+  "members": []
+}
+```
+
+Each object in a year's `members` has:
 
 ```json
 {
   "name": "Member name",
   "role": "Position",
-  "image": "assets/board/member-name.jpg",
+  "image": "assets/board/2027/member-name.jpg",
+  "linkedin": "https://www.linkedin.com/in/member-name/",
   "bio": "Introduction.\n\nFun fact or advice."
 }
 ```
 
-Add/remove an object to add/remove a person. Reorder objects to change display order (left to right on desktop, top to bottom on mobile). Add `"visible": false` to temporarily hide someone; remove it or set it to `true` to show them. Upload their photo to `public/assets/board/`.
+`linkedin` is optional: with it, the card's LinkedIn icon opens that person's profile; without it, the icon links to the GWC LinkedIn page. Add/remove an object to add/remove a person. Reorder objects to change display order (left to right on desktop, top to bottom on mobile). Add `"visible": false` to temporarily hide someone; remove it or set it to `true` to show them. Upload photos to a folder for that year, e.g. `public/assets/board/2027/`. Photos are cropped to the card shape automatically. A link to `board/#board-2025` opens that year's tab.
 
 ## Events and photos
 
